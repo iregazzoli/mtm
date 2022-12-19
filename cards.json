@@ -1,0 +1,21 @@
+{
+  "cards" : [
+    {
+    "id": 1,
+    "type": "mineral",
+    "name": "Phosphophyllite",
+    "cost": 1,
+    "color": "green",
+    "def": 3,
+    "atk": 1
+    },
+
+    {
+    "id": 2,
+    "type": "gem",
+    "name": "Esmeral",
+    "cost": 0,
+    "color": "green"
+    }
+  ]
+}

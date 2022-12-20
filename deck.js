@@ -2,6 +2,25 @@ export default class Deck {
   constructor(cardsFeature, quantities) {
     this.cards = addCards(cardsFeature, quantities); //cards and quantities are an array of objects
   }
+
+  get numberOfCards() {
+    return this.cards.length;
+  }
+
+  shuffle() {
+    for (let i = this.numberOfCards - 1; i > 0; i--) {
+      const newIndex = Math.floor(Math.random() * (i + 1));
+      const oldValue = this.cards[newIndex];
+      this.cards[newIndex] = this.cards[i];
+      this.cards[i] = oldValue;
+    }
+  }
+
+  draw(amount) {
+    const drawnCards = [];
+    for (let i = 0; i < amount; i++) drawnCards.push(this.cards.pop());
+    return drawnCards;
+  }
 }
 
 function addCards(cardsFeature, quantities) {

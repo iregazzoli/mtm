@@ -1,3 +1,4 @@
+import Player from "./player.js";
 import Deck from "./deck.js";
 
 let cards = [
@@ -23,15 +24,17 @@ let cards = [
 let playerDeck = [
   {
     id: 1,
-    copies: 3,
+    copies: 6,
   },
 
   {
     id: 2,
-    copies: 2,
+    copies: 4,
   },
 ];
-// console.log(cards);
-// console.log(playerDeck);
+
 const deck = new Deck(cards, playerDeck);
-console.log(deck.cards);
+const player = new Player(deck);
+player.initialDraw();
+console.log(player.deck);
+console.log(player.hand);

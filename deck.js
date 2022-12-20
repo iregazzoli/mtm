@@ -47,13 +47,12 @@ function createCard(cardFeatures) {
   if (cardType === "mineral") {
     let cardAtk = cardFeatures.atk;
     let cardDef = cardFeatures.def;
-    return new Creature(cardType, cardName, cardCost, cardColor, cardAtk, cardDef);
+    return new Creature(cardName, cardCost, cardColor, cardAtk, cardDef);
   } else if (cardType === "gem") return new Mana(cardType, cardName, cardCost, cardColor);
 }
 
 class Card {
-  constructor(type, name, cost, color) {
-    this.type = type;
+  constructor(name, cost, color) {
     this.name = name;
     this.cost = cost;
     this.color = color;
@@ -61,15 +60,31 @@ class Card {
 }
 
 class Creature extends Card {
-  constructor(type, name, cost, color, atk, def) {
-    super(type, name, cost, color);
+  constructor(name, cost, color, atk, def) {
+    super(name, cost, color);
     this.atk = atk;
     this.def = def;
+  }
+
+  getHTML() {
+    const cardDiv = document.createElement("div");
+    cardDiv.innerText = "Creature";
+    cardDiv.classList.add("card", this.name, this.color);
+    cardDiv.dataset.features = `${this.name} ${this.cost} ${this.atk} ${this.def}`;
+    return cardDiv;
   }
 }
 
 class Mana extends Card {
-  constructor(type, name, cost, color) {
-    super(type, name, cost, color);
+  constructor(name, cost, color) {
+    super(name, cost, color);
+  }
+
+  getHTML() {
+    const cardDiv = document.createElement("div");
+    cardDiv.innerText = "Mana";
+    cardDiv.classList.add("card", this.name, this.color);
+    cardDiv.dataset.features = `${this.name} ${this.cost}`;
+    return cardDiv;
   }
 }

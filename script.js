@@ -33,8 +33,17 @@ let playerDeck = [
   },
 ];
 
-const deck = new Deck(cards, playerDeck);
-const player = new Player(deck);
-player.initialDraw();
-console.log(player.deck);
-console.log(player.hand);
+StartGame();
+
+function StartGame() {
+  const playerHand = document.querySelector(".player-hand");
+  const deck = new Deck(cards, playerDeck);
+  deck.shuffle();
+  const player = new Player(deck);
+  player.initialDraw();
+  for (let i = 0; i < player.hand.length; i++) {
+    playerHand.appendChild(player.hand[i].getHTML());
+  }
+  console.log(player.deck);
+  console.log(player.hand);
+}

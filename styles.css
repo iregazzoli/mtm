@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   padding-top: 1rem;
@@ -27,11 +28,4 @@ body {
   float: left;
 }
 
-.card{
-  display: inline-block;
-  border: 1px solid rgb(170, 20, 20);
-  border-radius: .5rem;
-  height: 20rem;
-  width: 15rem;
-}
 

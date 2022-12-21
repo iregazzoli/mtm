@@ -1,3 +1,11 @@
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 .player-deck img{
   width: 100%;
   height: 100%;
@@ -74,6 +82,39 @@ margin-bottom: 7px;
 margin-bottom: 7px;
 }
 
+.frame-header.blue,
+.frame-art.blue,
+.card-frame-type.blue,
+.card-frame-stats.blue {
+ box-shadow: 
+ 0 0 0 2px #171314,
+ 0 0 0 5px #004ef5,
+ -3px 3px 2px 5px #171314;
+margin-bottom: 7px;
+}
+
+.frame-header.white,
+.frame-art.white,
+.card-frame-type.white,
+.card-frame-stats.white {
+ box-shadow: 
+ 0 0 0 2px #171314,
+ 0 0 0 5px #ffffff,
+ -3px 3px 2px 5px #171314;
+margin-bottom: 7px;
+}
+
+.frame-header.black,
+.frame-art.black,
+.card-frame-type.black,
+.card-frame-stats.black {
+ box-shadow: 
+ 0 0 0 2px #171314,
+ 0 0 0 5px #3b3b3b,
+ -3px 3px 2px 5px #171314;
+margin-bottom: 7px;
+}
+
 .frame-art {
   margin: 0 0.1rem 0 0.1rem;
   height: 50%; /* make it fit in the card */
@@ -131,6 +172,48 @@ margin-bottom: 7px;
  .card-frame-text.red {
   box-shadow: 
   0 0 0 5px #ac1804,
+  -3px 3px 2px 5px #171314;
+  margin: 0 0.4rem;
+  background: #d3ded6;
+  background-image: url("./card_images/frame_header.jpg");
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; 
+  box-sizing: border-box;
+  font-size: 1em;
+ }
+
+ .card-frame-text.blue {
+  box-shadow: 
+  0 0 0 5px #004ef5,
+  -3px 3px 2px 5px #171314;
+  margin: 0 0.4rem;
+  background: #d3ded6;
+  background-image: url("./card_images/frame_header.jpg");
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; 
+  box-sizing: border-box;
+  font-size: 1em;
+ }
+
+ .card-frame-text.white {
+  box-shadow: 
+  0 0 0 5px #ffffff,
+  -3px 3px 2px 5px #171314;
+  margin: 0 0.4rem;
+  background: #d3ded6;
+  background-image: url("./card_images/frame_header.jpg");
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; 
+  box-sizing: border-box;
+  font-size: 1em;
+ }
+
+ .card-frame-text.black {
+  box-shadow: 
+  0 0 0 5px #3b3b3b,
   -3px 3px 2px 5px #171314;
   margin: 0 0.4rem;
   background: #d3ded6;

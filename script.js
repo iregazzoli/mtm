@@ -10,14 +10,16 @@ let cards = [
     color: "green",
     def: 3,
     atk: 1,
+    effect: "A cute gem but weak, brittle and not suited for battle.",
   },
 
   {
     id: 2,
     type: "gem",
-    name: "Esmeral",
+    name: "Esmerald",
     cost: 0,
     color: "green",
+    effect: "Provides 1 green mana.",
   },
 ];
 

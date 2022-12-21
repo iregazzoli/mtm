@@ -43,48 +43,122 @@ function createCard(cardFeatures) {
   let cardName = cardFeatures.name;
   let cardCost = cardFeatures.cost;
   let cardColor = cardFeatures.color;
+  let cardEffect = cardFeatures.effect;
 
   if (cardType === "mineral") {
     let cardAtk = cardFeatures.atk;
     let cardDef = cardFeatures.def;
-    return new Creature(cardName, cardCost, cardColor, cardAtk, cardDef);
-  } else if (cardType === "gem") return new Mana(cardType, cardName, cardCost, cardColor);
+    return new Creature(cardName, cardCost, cardColor, cardEffect, cardAtk, cardDef);
+  } else if (cardType === "gem") return new Mana(cardName, cardCost, cardColor, cardEffect);
 }
 
 class Card {
-  constructor(name, cost, color) {
+  constructor(name, cost, color, effect) {
     this.name = name;
     this.cost = cost;
     this.color = color;
+    this.effect = effect;
   }
 }
 
 class Creature extends Card {
-  constructor(name, cost, color, atk, def) {
-    super(name, cost, color);
+  constructor(name, cost, color, effect, atk, def) {
+    super(name, cost, color, effect);
     this.atk = atk;
     this.def = def;
   }
 
   getHTML() {
-    const cardDiv = document.createElement("div");
-    cardDiv.innerText = "Creature";
-    cardDiv.classList.add("card", this.name, this.color);
-    cardDiv.dataset.features = `${this.name} ${this.cost} ${this.atk} ${this.def}`;
-    return cardDiv;
+    const cardContainer = document.createElement("div");
+    const cardBackground = document.createElement("div");
+    const cardFrame = document.createElement("div");
+    const cardFrameHeader = document.createElement("div"); // Name and mana icons
+    const cardFrameType = document.createElement("div"); // Creature vs Mana (vs instant or enchanment on the future)
+    const cardFrameText = document.createElement("div"); // Effect Text
+    const cardFrameStats = document.createElement("div");
+    const cardText = document.createElement("p");
+    const cardName = document.createElement("h1");
+    const cardType = document.createElement("h1");
+    const cardStats = document.createElement("h1");
+    const cardImg = document.createElement("img");
+
+    cardContainer.classList.add("card-container");
+    cardBackground.classList.add("card-background");
+    cardFrame.classList.add("card-frame");
+    cardFrameHeader.classList.add("frame-header", this.color);
+    cardFrameType.classList.add("card-frame-type", this.color);
+    cardFrameText.classList.add("card-frame-text", this.color);
+    cardFrameStats.classList.add("card-frame-stats", this.color);
+    cardImg.classList.add("frame-art", this.color);
+    cardName.classList.add("card-name");
+    cardType.classList.add("card-type");
+    cardStats.classList.add("card-stats");
+
+    cardStats.innerHTML = `${this.atk} / ${this.def}`;
+    cardText.innerHTML = this.effect;
+    cardName.innerHTML = this.name;
+    cardType.innerHTML = "Creature";
+    cardImg.src = `./card_images/${this.name}.jpg`;
+
+    cardFrameStats.appendChild(cardStats);
+    cardFrameHeader.appendChild(cardName);
+    cardFrameType.appendChild(cardType);
+    cardFrameText.appendChild(cardText);
+    cardFrame.append(cardFrameHeader, cardImg, cardFrameType, cardFrameText, cardFrameStats);
+
+    cardBackground.appendChild(cardFrame);
+    cardContainer.appendChild(cardBackground);
+
+    return cardContainer;
   }
 }
 
 class Mana extends Card {
-  constructor(name, cost, color) {
-    super(name, cost, color);
+  constructor(name, cost, color, effect) {
+    super(name, cost, color, effect);
   }
 
   getHTML() {
-    const cardDiv = document.createElement("div");
-    cardDiv.innerText = "Mana";
-    cardDiv.classList.add("card", this.name, this.color);
-    cardDiv.dataset.features = `${this.name} ${this.cost}`;
-    return cardDiv;
+    const cardContainer = document.createElement("div");
+    const cardBackground = document.createElement("div");
+    const cardFrame = document.createElement("div");
+    const cardFrameHeader = document.createElement("div"); // Name and mana icons
+    const cardFrameType = document.createElement("div"); // Creature vs Mana (vs instant or enchanment on the future)
+    const cardFrameText = document.createElement("div"); // Effect Text
+    // const cardFrameStats = document.createElement("div");
+    const cardText = document.createElement("p");
+    const cardName = document.createElement("h1");
+    const cardType = document.createElement("h1");
+    // const cardStats = document.createElement("h1");
+    const cardImg = document.createElement("img");
+
+    cardContainer.classList.add("card-container");
+    cardBackground.classList.add("card-background");
+    cardFrame.classList.add("card-frame");
+    cardFrameHeader.classList.add("frame-header", this.color);
+    cardFrameType.classList.add("card-frame-type", this.color);
+    cardFrameText.classList.add("card-frame-text", this.color);
+    // cardFrameStats.classList.add("card-frame-stats", this.color);
+    cardImg.classList.add("frame-art", this.color);
+    cardName.classList.add("card-name");
+    cardType.classList.add("card-type");
+    // cardStats.classList.add("card-stats");
+
+    // cardStats.innerHTML = `${this.atk} / ${this.def}`;
+    cardText.innerHTML = this.effect;
+    cardName.innerHTML = this.name;
+    cardType.innerHTML = "Gem";
+    cardImg.src = `./card_images/${this.name}.jpg`;
+
+    // cardFrameStats.appendChild(cardStats);
+    cardFrameHeader.appendChild(cardName);
+    cardFrameType.appendChild(cardType);
+    cardFrameText.appendChild(cardText);
+    cardFrame.append(cardFrameHeader, cardImg, cardFrameType, cardFrameText);
+
+    cardBackground.appendChild(cardFrame);
+    cardContainer.appendChild(cardBackground);
+
+    return cardContainer;
   }
 }

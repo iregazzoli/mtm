@@ -8,30 +8,30 @@ body {
   text-align: center;
 }
 
+.player-deck,
+.player-hand {
+  margin-top: 35rem;
+  height: 20rem;
+}
+
 .player-hand{
-  margin-left: 10rem;
-  margin-top: 40rem;
+  margin-left: 5rem;
   float: left;
   border: 1px solid black;
-  height: 15rem;
   width: 90rem;
 }
 
 .player-deck{
   margin-left: 5rem;
-  border: 1px solid black;
-  height: 15rem;
-  width: 10rem;
+  width: 15rem;
   float: left;
-  margin-top: 40rem;
-  border-radius: .5rem;
 }
 
 .card{
   display: inline-block;
   border: 1px solid rgb(170, 20, 20);
   border-radius: .5rem;
-  height: 15rem;
-  width: 10rem;
+  height: 20rem;
+  width: 15rem;
 }
 

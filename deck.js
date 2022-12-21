@@ -68,6 +68,17 @@ class Creature extends Card {
     this.def = def;
   }
 
+  createManaIcons(cardFrameHeader) {
+    //Not working
+    console.log("bocci");
+    for (let i = 0; i < this.cost; i++) {
+      let mana = document.createElement("img");
+      mana.classList.add("manaIcon", this.color);
+      mana.src = `./card_images/mana${this.color}.png`;
+      cardFrameHeader.appendChild(mana);
+    }
+  }
+
   getHTML() {
     const cardContainer = document.createElement("div");
     const cardBackground = document.createElement("div");
@@ -102,6 +113,7 @@ class Creature extends Card {
 
     cardFrameStats.appendChild(cardStats);
     cardFrameHeader.appendChild(cardName);
+    this.createManaIcons(cardFrameHeader);
     cardFrameType.appendChild(cardType);
     cardFrameText.appendChild(cardText);
     cardFrame.append(cardFrameHeader, cardImg, cardFrameType, cardFrameText, cardFrameStats);
@@ -118,17 +130,6 @@ class Mana extends Card {
     super(name, cost, color, effect);
   }
 
-  createManaIcons(cardFrameHeader) {
-    //Not working
-    console.log("bocci");
-    for (let i = 0; i < this.cost; i++) {
-      let mana = document.createElement("div");
-      mana.classList.add("manaIcon", this.color);
-      mana.innerHTML = this.color;
-      cardFrameHeader.appendChild(mana);
-    }
-  }
-
   getHTML() {
     const cardContainer = document.createElement("div");
     const cardBackground = document.createElement("div");
@@ -140,8 +141,6 @@ class Mana extends Card {
     const cardName = document.createElement("h1");
     const cardType = document.createElement("h1");
     const cardImg = document.createElement("img");
-
-    this.createManaIcons(cardFrameHeader);
 
     cardContainer.classList.add("card-container");
     cardBackground.classList.add("card-background");

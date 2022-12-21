@@ -95,18 +95,22 @@ margin-bottom: 7px;
  align-self: baseline;
 }
 
+.card-name{
+  width: 85%;
+  text-align: left;
+}
+
 .frame-header,
 .card-frame-type {
  background: 
  linear-gradient( 0deg, rgba(201, 216, 201, .3), rgba(201, 216, 209, .3) ), 
  url("./card_images/frame_header.jpg"); 
  height: 1.5em;
- display: flex;
  margin-top: 0.0625rem;
  margin-left: 0.0625px;
  margin-right: 0.0625px;
  display: flex;
- justify-content: space-between;
+ /* justify-content: space-between; */
  border-radius: 1.125rem/2.5rem;
 }
 
@@ -150,3 +154,9 @@ margin-bottom: 7px;
   font-size: 1em;
   margin: -0.5rem 0.5rem 0 0.5rem;
  }
+
+.manaIcon.green{
+  display: inline;
+  height: 1.2rem;
+  display: flex;
+}

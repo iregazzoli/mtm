@@ -5,9 +5,9 @@ let cards = [
   {
     id: 1,
     type: "mineral",
-    name: "Ruby",
-    cost: 1,
-    color: "red",
+    name: "Phosphophyllite",
+    cost: 2,
+    color: "green",
     def: 3,
     atk: 1,
     effect: "A cute gem but weak, brittle and not suited for battle.",

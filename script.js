@@ -90,97 +90,7 @@ export let allCards = [
   },
 ];
 
-const greenCards = [
-  {
-    id: 6,
-    type: CREATURE,
-    name: "Phosphophyllite",
-    cost: 1,
-    color: GREEN,
-    def: 2,
-    atk: 1,
-    effect: "A cute gem but weak, brittle and not suited for battle.",
-  },
-
-  {
-    id: 1,
-    type: MANA,
-    name: "Esmerald",
-    cost: 0,
-    color: GREEN,
-    effect: "Provides 1 green mana.",
-  },
-];
-
-const greenPlayerDeck = [
-  {
-    id: 6,
-    copies: 6,
-  },
-
-  {
-    id: 1,
-    copies: 4,
-  },
-];
-
-const blueCards = [
-  {
-    id: 3,
-    type: CREATURE,
-    name: "Sapphire",
-    cost: 3,
-    color: BLUE,
-    def: 2,
-    atk: 4,
-    effect: "A gem with great observation and deductive thinking skills, because of that she has a great confidence in herself.",
-  },
-
-  {
-    id: 4,
-    type: MANA,
-    name: "Sapphire",
-    cost: 0,
-    color: BLUE,
-    effect: "Provides 1 blue mana.",
-  },
-];
-
-const bluePlayerDeck = [
-  {
-    id: 2,
-    copies: 6,
-  },
-
-  {
-    id: 4,
-    copies: 4,
-  },
-];
-
-const redCards = [
-  {
-    id: 8,
-    type: CREATURE,
-    name: "Ruby",
-    cost: 3,
-    color: RED,
-    def: 2,
-    atk: 4,
-    effect: "A gem with great observation and deductive thinking skills, because of that she has a great confidence in herself.",
-  },
-
-  {
-    id: 3,
-    type: MANA,
-    name: "Ruby",
-    cost: 0,
-    color: RED,
-    effect: "Provides 1 red mana.",
-  },
-];
-
-const redPlayerDeck = [
+const playerDeck = [
   {
     id: 8,
     copies: 6,
@@ -196,7 +106,7 @@ StartGame();
 
 function StartGame() {
   const playerHand = document.querySelector(".player-hand");
-  const deck = new Deck(redCards, redPlayerDeck);
+  const deck = new Deck(playerDeck);
   deck.shuffle();
   const player = new Player(deck);
   player.initialDraw();

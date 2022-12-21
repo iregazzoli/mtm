@@ -1,6 +1,8 @@
+import { allCards } from "./script.js";
+
 export default class Deck {
-  constructor(cardsFeature, quantities) {
-    this.cards = addCards(cardsFeature, quantities); //cards and quantities are an array of objects
+  constructor(deckSpecs) {
+    this.cards = addCards(deckSpecs);
   }
 
   get numberOfCards() {
@@ -23,14 +25,14 @@ export default class Deck {
   }
 }
 
-function addCards(cardsFeature, quantities) {
-  //maybe it should be a method?
+// function addCards(cardsFeature, quantities) {
+function addCards(deckSpecs) {
   const cards = [];
-  for (const cardSpecs of quantities) {
-    for (const cardInfo of cardsFeature) {
-      if (cardInfo.id === cardSpecs.id) {
+  for (let cardSpecs of deckSpecs) {
+    for (let card of allCards) {
+      if (cardSpecs.id === card.id) {
         for (let i = 0; i < cardSpecs.copies; i++) {
-          cards.push(createCard(cardInfo));
+          cards.push(createCard(card));
         }
       }
     }

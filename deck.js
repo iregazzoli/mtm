@@ -109,7 +109,7 @@ class Creature extends Card {
     cardText.innerHTML = this.effect;
     cardName.innerHTML = this.name;
     cardType.innerHTML = "Creature";
-    cardImg.src = `./card_images/${this.name}.jpg`;
+    cardImg.src = `./card_images/${this.name}C.jpg`;
 
     cardFrameStats.appendChild(cardStats);
     cardFrameHeader.appendChild(cardName);

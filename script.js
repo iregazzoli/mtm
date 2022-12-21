@@ -1,13 +1,22 @@
 import Player from "./player.js";
 import Deck from "./deck.js";
 
-let cards = [
+const BLACK = "black";
+const RED = "red";
+const GREEN = "green";
+const BLUE = "blue";
+const WHITE = "white";
+
+const CREATURE = "mineral";
+const MANA = "gem";
+
+let greenCards = [
   {
     id: 1,
-    type: "mineral",
+    type: CREATURE,
     name: "Phosphophyllite",
     cost: 1,
-    color: "green",
+    color: GREEN,
     def: 2,
     atk: 1,
     effect: "A cute gem but weak, brittle and not suited for battle.",
@@ -15,15 +24,15 @@ let cards = [
 
   {
     id: 2,
-    type: "gem",
+    type: MANA,
     name: "Esmerald",
     cost: 0,
-    color: "green",
+    color: GREEN,
     effect: "Provides 1 green mana.",
   },
 ];
 
-let playerDeck = [
+let greenPlayerDeck = [
   {
     id: 1,
     copies: 6,
@@ -35,11 +44,79 @@ let playerDeck = [
   },
 ];
 
+let blueCards = [
+  {
+    id: 3,
+    type: CREATURE,
+    name: "Sapphire",
+    cost: 3,
+    color: BLUE,
+    def: 2,
+    atk: 4,
+    effect: "A gem with great observation and deductive thinking skills, because of that she has a great confidence in herself.",
+  },
+
+  {
+    id: 4,
+    type: MANA,
+    name: "Sapphire",
+    cost: 0,
+    color: BLUE,
+    effect: "Provides 1 blue mana.",
+  },
+];
+
+let bluePlayerDeck = [
+  {
+    id: 3,
+    copies: 6,
+  },
+
+  {
+    id: 4,
+    copies: 4,
+  },
+];
+
+let redCards = [
+  {
+    id: 3,
+    type: CREATURE,
+    name: "Ruby",
+    cost: 3,
+    color: RED,
+    def: 2,
+    atk: 4,
+    effect: "A gem with great observation and deductive thinking skills, because of that she has a great confidence in herself.",
+  },
+
+  {
+    id: 4,
+    type: MANA,
+    name: "Ruby",
+    cost: 0,
+    color: RED,
+    effect: "Provides 1 red mana.",
+  },
+];
+
+let redPlayerDeck = [
+  {
+    id: 3,
+    copies: 6,
+  },
+
+  {
+    id: 4,
+    copies: 4,
+  },
+];
+
 StartGame();
 
 function StartGame() {
   const playerHand = document.querySelector(".player-hand");
-  const deck = new Deck(cards, playerDeck);
+  const deck = new Deck(redCards, redPlayerDeck);
   deck.shuffle();
   const player = new Player(deck);
   player.initialDraw();

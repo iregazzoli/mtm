@@ -69,8 +69,6 @@ class Creature extends Card {
   }
 
   createManaIcons(cardFrameHeader) {
-    //Not working
-    console.log("bocci");
     for (let i = 0; i < this.cost; i++) {
       let mana = document.createElement("img");
       mana.classList.add("manaIcon", this.color);
@@ -109,7 +107,7 @@ class Creature extends Card {
     cardText.innerHTML = this.effect;
     cardName.innerHTML = this.name;
     cardType.innerHTML = "Creature";
-    cardImg.src = `./card_images/${this.name}C.jpg`;
+    cardImg.src = `./card_images/${this.name}C.png`;
 
     cardFrameStats.appendChild(cardStats);
     cardFrameHeader.appendChild(cardName);
@@ -155,7 +153,7 @@ class Mana extends Card {
     cardText.innerHTML = this.effect;
     cardName.innerHTML = this.name;
     cardType.innerHTML = "Gem";
-    cardImg.src = `./card_images/${this.name}.jpg`;
+    cardImg.src = `./card_images/${this.name}.png`;
 
     cardFrameHeader.appendChild(cardName);
     cardFrameType.appendChild(cardType);

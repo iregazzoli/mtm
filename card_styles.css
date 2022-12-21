@@ -29,6 +29,10 @@ img {
   cursor: pointer;
  }
 
+ .card-container:hover{
+  transform: scale(1.05);
+ }
+
  .card-background {
   height: 90%;
   margin: 0.5rem 0.7rem 0 0.7rem;

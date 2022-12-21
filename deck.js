@@ -44,16 +44,18 @@ function createCard(cardFeatures) {
   let cardCost = cardFeatures.cost;
   let cardColor = cardFeatures.color;
   let cardEffect = cardFeatures.effect;
+  let cardId = cardFeatures.id;
 
   if (cardType === "mineral") {
     let cardAtk = cardFeatures.atk;
     let cardDef = cardFeatures.def;
-    return new Creature(cardName, cardCost, cardColor, cardEffect, cardAtk, cardDef);
-  } else if (cardType === "gem") return new Mana(cardName, cardCost, cardColor, cardEffect);
+    return new Creature(cardId, cardName, cardCost, cardColor, cardEffect, cardAtk, cardDef);
+  } else if (cardType === "gem") return new Mana(cardId, cardName, cardCost, cardColor, cardEffect);
 }
 
 class Card {
-  constructor(name, cost, color, effect) {
+  constructor(id, name, cost, color, effect) {
+    this.id = id;
     this.name = name;
     this.cost = cost;
     this.color = color;
@@ -62,8 +64,8 @@ class Card {
 }
 
 class Creature extends Card {
-  constructor(name, cost, color, effect, atk, def) {
-    super(name, cost, color, effect);
+  constructor(id, name, cost, color, effect, atk, def) {
+    super(id, name, cost, color, effect);
     this.atk = atk;
     this.def = def;
   }
@@ -90,6 +92,10 @@ class Creature extends Card {
     const cardType = document.createElement("h1");
     const cardStats = document.createElement("h1");
     const cardImg = document.createElement("img");
+
+    var att = document.createAttribute("card-id");
+    att.value = this.id;
+    cardContainer.setAttributeNode(att);
 
     cardContainer.classList.add("card-container");
     cardBackground.classList.add("card-background");
@@ -124,8 +130,8 @@ class Creature extends Card {
 }
 
 class Mana extends Card {
-  constructor(name, cost, color, effect) {
-    super(name, cost, color, effect);
+  constructor(id, name, cost, color, effect) {
+    super(id, name, cost, color, effect);
   }
 
   getHTML() {
@@ -139,6 +145,10 @@ class Mana extends Card {
     const cardName = document.createElement("h1");
     const cardType = document.createElement("h1");
     const cardImg = document.createElement("img");
+
+    var att = document.createAttribute("card-id");
+    att.value = this.id;
+    cardContainer.setAttributeNode(att);
 
     cardContainer.classList.add("card-container");
     cardBackground.classList.add("card-background");

@@ -118,6 +118,17 @@ class Mana extends Card {
     super(name, cost, color, effect);
   }
 
+  createManaIcons(cardFrameHeader) {
+    //Not working
+    console.log("bocci");
+    for (let i = 0; i < this.cost; i++) {
+      let mana = document.createElement("div");
+      mana.classList.add("manaIcon", this.color);
+      mana.innerHTML = this.color;
+      cardFrameHeader.appendChild(mana);
+    }
+  }
+
   getHTML() {
     const cardContainer = document.createElement("div");
     const cardBackground = document.createElement("div");
@@ -125,12 +136,12 @@ class Mana extends Card {
     const cardFrameHeader = document.createElement("div"); // Name and mana icons
     const cardFrameType = document.createElement("div"); // Creature vs Mana (vs instant or enchanment on the future)
     const cardFrameText = document.createElement("div"); // Effect Text
-    // const cardFrameStats = document.createElement("div");
     const cardText = document.createElement("p");
     const cardName = document.createElement("h1");
     const cardType = document.createElement("h1");
-    // const cardStats = document.createElement("h1");
     const cardImg = document.createElement("img");
+
+    this.createManaIcons(cardFrameHeader);
 
     cardContainer.classList.add("card-container");
     cardBackground.classList.add("card-background");
@@ -138,19 +149,15 @@ class Mana extends Card {
     cardFrameHeader.classList.add("frame-header", this.color);
     cardFrameType.classList.add("card-frame-type", this.color);
     cardFrameText.classList.add("card-frame-text", this.color);
-    // cardFrameStats.classList.add("card-frame-stats", this.color);
     cardImg.classList.add("frame-art", this.color);
     cardName.classList.add("card-name");
     cardType.classList.add("card-type");
-    // cardStats.classList.add("card-stats");
 
-    // cardStats.innerHTML = `${this.atk} / ${this.def}`;
     cardText.innerHTML = this.effect;
     cardName.innerHTML = this.name;
     cardType.innerHTML = "Gem";
     cardImg.src = `./card_images/${this.name}.jpg`;
 
-    // cardFrameStats.appendChild(cardStats);
     cardFrameHeader.appendChild(cardName);
     cardFrameType.appendChild(cardType);
     cardFrameText.appendChild(cardText);

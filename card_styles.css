@@ -63,6 +63,17 @@
 margin-bottom: 7px;
 }
 
+.frame-header.red,
+.frame-art.red,
+.card-frame-type.red,
+.card-frame-stats.red {
+ box-shadow: 
+ 0 0 0 2px #171314,
+ 0 0 0 5px #ac1804,
+ -3px 3px 2px 5px #171314;
+margin-bottom: 7px;
+}
+
 .frame-art {
   margin: 0 0.1rem 0 0.1rem;
   height: 50%; /* make it fit in the card */
@@ -113,7 +124,21 @@ margin-bottom: 7px;
   font-size: 1em;
  }
 
-.card-frame-stats.green{
+ .card-frame-text.red {
+  box-shadow: 
+  0 0 0 5px #ac1804,
+  -3px 3px 2px 5px #171314;
+  margin: 0 0.4rem;
+  background: #d3ded6;
+  background-image: url("./card_images/frame_header.jpg");
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; 
+  box-sizing: border-box;
+  font-size: 1em;
+ }
+
+.card-frame-stats{
   background: 
   linear-gradient( 0deg, rgba(201, 216, 201, .3), rgba(201, 216, 209, .3) ), 
   url("./card_images/frame_header.jpg"); 

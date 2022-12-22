@@ -5,12 +5,12 @@ export default class Deck {
     this.cards = addCards(deckSpecs);
   }
 
-  get numberOfCards() {
+  cardsLeft() {
     return this.cards.length;
   }
 
   shuffle() {
-    for (let i = this.numberOfCards - 1; i > 0; i--) {
+    for (let i = this.cardsLeft() - 1; i > 0; i--) {
       const newIndex = Math.floor(Math.random() * (i + 1));
       const oldValue = this.cards[newIndex];
       this.cards[newIndex] = this.cards[i];
@@ -18,10 +18,11 @@ export default class Deck {
     }
   }
 
-  draw(amount) {
-    const drawnCards = [];
-    for (let i = 0; i < amount; i++) drawnCards.push(this.cards.pop());
-    return drawnCards;
+  drawCard() {
+    if (this.cardsLeft() > 0) {
+      const drawnCard = this.cards.pop();
+      return drawnCard;
+    }
   }
 }
 
@@ -99,7 +100,7 @@ class Creature extends Card {
     att.value = this.id;
     cardContainer.setAttributeNode(att);
 
-    cardContainer.classList.add("card-container");
+    cardContainer.classList.add("card-container"); //parent
     cardBackground.classList.add("card-background");
     cardFrame.classList.add("card-frame");
     cardFrameHeader.classList.add("frame-header", this.color);

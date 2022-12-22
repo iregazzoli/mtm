@@ -8,8 +8,14 @@ export default class Player {
     this.mana = 0;
   }
 
-  initialDraw() {
-    this.hand = this.deck.draw(5);
+  draw(amount) {
+    const drawnCards = [];
+    for (let i = 0; i < amount; i++) {
+      const drawnCard = this.deck.drawCard();
+      drawnCards.push(drawnCard);
+      this.hand.push(drawnCard);
+    }
+    return drawnCards;
   }
 
   playCard(cardId) {

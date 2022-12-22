@@ -227,3 +227,9 @@ p {
   display: flex;
   float: right;
 }
+
+.card-background, 
+.card-frame,
+.frame-art {
+  pointer-events: none;
+}

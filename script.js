@@ -10,6 +10,8 @@ const WHITE = "white";
 const CREATURE = "mineral";
 const MANA = "gem";
 
+const INITIAL_AMOUNT_OF_CARDS = 5;
+
 export let allCards = [
   {
     id: 1,
@@ -82,7 +84,7 @@ export let allCards = [
     id: 8,
     type: CREATURE,
     name: "Ruby",
-    cost: 3,
+    cost: 0, //Change cost later
     color: RED,
     def: 2,
     atk: 4,
@@ -106,56 +108,59 @@ StartGame();
 
 function StartGame() {
   const playerHand = document.querySelector(".player-hand");
+  const playerDeckDiv = document.querySelector(".player-deck");
   const deck = new Deck(playerDeck);
+
   deck.shuffle();
   const player = new Player(deck);
-  player.initialDraw();
+  player.draw(INITIAL_AMOUNT_OF_CARDS);
 
   player.hand.forEach((card) => {
     playerHand.appendChild(card.getHTML());
   });
 
-  console.log(playerHand);
+  playerDeckDiv.addEventListener("click", () => {
+    const drawnCards = player.draw(1); // Still getting the error "TypeError: Cannot read properties of undefined (reading 'getHTML')"
+    console.log(drawnCards);
+    for (let card of drawnCards) {
+      const cardDiv = card.getHTML();
+      makeCardPlayable(cardDiv, player, playerHand);
+      playerHand.appendChild(cardDiv);
+    }
+  });
 
   let cards = Array.from(document.getElementsByClassName("card-container"));
   cards.forEach((card) => {
-    card.addEventListener("click", (event) => {
-      const cardId = event.target.attributes["card-id"].value;
-      if (player.playCard(Number(cardId))) {
-        removeCard(playerHand, cardId); //add later only call funct if player.playCard() removed a card
-      }
-    });
+    makeCardPlayable(card, player, playerHand);
   });
 
   console.log(player.deck);
   console.log(player.hand);
 }
 
-function obtainCardCost(cardId) {
-  for (let card of allCards) {
-    if (card.id === Number(cardId)) {
-      return card.cost;
+function makeCardPlayable(card, player, playerHand) {
+  card.addEventListener("click", (event) => {
+    const cardId = event.target.attributes["card-id"].value;
+    if (player.playCard(Number(cardId))) {
+      removeCardFromHand(playerHand, cardId);
     }
-  }
+  });
 }
 
-function removeCard(playerHand, cardId) {
+function removeCardFromHand(playerHand, cardId) {
   var childs = playerHand.childNodes;
-  console.log(childs);
   let searchedChild;
 
   // obtains the child whos card-id = search id
   for (let child of childs) {
     if (child.getAttribute("card-id") === cardId) searchedChild = child;
   }
-
-  console.log(searchedChild);
-
   // removes it from .player-hand div
   const playedCard = playerHand.removeChild(searchedChild);
 
   // adds it to the corresponding board
   if (playedCard.getAttribute("card-id") <= 5) {
+    //Think later for a way to not hardcode the 5
     document.querySelector(".mana-board").appendChild(playedCard);
   } else {
     document.querySelector(".creature-board").appendChild(playedCard);

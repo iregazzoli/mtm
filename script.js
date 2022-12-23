@@ -94,13 +94,23 @@ export let allCards = [
 
 const playerDeck = [
   {
-    id: 8,
+    id: 6,
     copies: 6,
   },
 
   {
-    id: 3,
+    id: 1,
     copies: 4,
+  },
+
+  {
+    id: 7,
+    copies: 6,
+  },
+
+  {
+    id: 2,
+    copies: 5,
   },
 ];
 
@@ -151,6 +161,8 @@ function playCard() {
   if (player.playCard(Number(cardId))) {
     removeCardFromHand(playerHand, cardId);
     discountManaCount(Number(cardId));
+  } else {
+    shakeManaIcon(Number(cardId));
   }
 }
 
@@ -196,11 +208,25 @@ function addManaCount(manaColor) {
 }
 
 function discountManaCount(cardId) {
-  console.log;
   const card = allCards.filter((card) => cardId === card.id)[0];
   let manaCount = document.querySelector(".mana-count");
   let manas = Array.from(manaCount.children);
-  console.log(card);
   const manaDiv = manas.filter((mana) => mana.getAttribute("mana-color") === card.color)[0];
   manaDiv.children[0].firstChild.data = manaDiv.children[0].firstChild.data -= card.cost;
+}
+
+function shakeManaIcon(cardId) {
+  const card = allCards.filter((card) => cardId === card.id)[0];
+  let manaCount = document.querySelector(".mana-count");
+  let manas = Array.from(manaCount.children);
+  const manaDiv = manas.filter((mana) => mana.getAttribute("mana-color") === card.color)[0];
+  const manaIcon = manaDiv.children[1];
+
+  manaIcon.classList.add("shake");
+
+  function removeShake() {
+    manaIcon.classList.remove("shake");
+  }
+  const interval = window.setInterval(removeShake, 500);
+  window.clearInterval(interval);
 }

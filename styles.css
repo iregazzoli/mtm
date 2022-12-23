@@ -14,165 +14,191 @@ body {
   text-align: center;
 }
 
-.player-deck,
-.player-hand {
-  grid-area: 3 / 1 / 4 / 2; 
+/* GRID SECTIONO */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 25rem);
+  grid-template-rows: repeat(3, minmax(21rem, auto));
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  justify-content: center;
 }
 
-.player-hand{
-  float: left;
+.creature-board { grid-area: 1 / 1 / 2 / 6; 
   border: 1px solid black;
-  width: 90rem;
-  grid-area: 3 / 2 / 4 / 4;
+}
+
+.mana-board { grid-area: 2 / 1 / 3 / 5; 
+  border: 1px solid black;
+}
+
+.mana-count { grid-area: 2 / 5 / 3 / 6; 
+  border: 1px solid black;
 }
 
 .player-deck{
+  grid-area: 3 / 1 / 4 / 2; 
   margin-left: 5rem;
-  width: 15rem;
   float: left;
 }
 
+.player-hand{
+  border: 1px solid black;
+  grid-area: 3 / 2 / 4 / 6;
+}
+ /* END OF GRID SECTION */
+  
+ /* MANA ICONS */
+.mana-icon{
+  width: 5rem;
+  height: 5rem;
+}
+
+.red-mana-value{
+  position: absolute;
+  z-index: 10;
+  top: 2.7rem;
+  margin-top: auto; 
+  margin-bottom: auto; 
+  left: 0rem;
+  right: 0rem;
+  margin-left: auto; 
+  margin-right: auto; 
+  color: rgb(255, 255, 255);
+  font-size: 3rem;  
+}
+
+.green-mana-value{
+  position: absolute;
+  z-index: 10;
+  top: 6.7rem;
+  left: 0rem;
+  right: 9rem;
+  margin-left: auto; 
+  margin-right: auto; 
+  color: rgb(255, 255, 255);
+  font-size: 3rem;  
+}
+
+.blue-mana-value{
+  position: absolute;
+  z-index: 10;
+  top: 6.7rem;
+  left: 9rem;
+  right: 0rem;
+  margin-left: auto; 
+  margin-right: auto; 
+  color: rgb(255, 255, 255);
+  font-size: 3rem;  
+}
+
+.black-mana-value{
+  position: absolute;
+  z-index: 10;
+  top: 12.2rem;
+  left: 2rem;
+  right: 8rem;
+  margin-left: auto; 
+  margin-right: auto; 
+  color: rgb(255, 255, 255);
+  font-size: 3rem;  
+}
+
+.white-mana-value{
+  position: absolute;
+  z-index: 10;
+  top: 12.2rem;
+  left: 8rem;
+  right: 2rem;
+  margin-left: auto; 
+  margin-right: auto; 
+  color: rgb(255, 255, 255);
+  font-size: 3rem;  
+}
+
+.mana-red-icon{
+  position: absolute;
+  top: 2rem;
+  left: 0rem;
+  right: 0rem;
+  margin-left: auto; 
+  margin-right: auto; 
+
+}
+
+.mana-green-icon{
+  position: absolute;
+  top: 6rem;
+  left: 0rem;
+  right: 9rem;
+  margin-left: auto; 
+  margin-right: auto; 
+}
+
+.mana-blue-icon{
+  position: absolute;
+  top: 6rem;
+  left: 9rem;
+  right: 0rem;
+  margin-left: auto; 
+  margin-right: auto; 
+}
+
+.mana-white-icon{
+  position: absolute;
+  top: 11.5rem;
+  left: 8rem;
+  right: 2rem;
+  margin-left: auto; 
+  margin-right: auto; 
+}
+
+.mana-black-icon{
+  position: absolute;
+  top: 11.5rem;
+  left: 2rem;
+  right: 8rem;
+  margin-left: auto; 
+  margin-right: auto; 
+}
+
+
+.mana-count{
+  position: relative;
+  background-image: url("./card_images/mana_background.png");
+}
+
+/* END OF MANAICONS */
+
+
+/* ANIMATIONS */
+  
 .player-deck:hover{
   transform: scale(1.05);
  }
 
-.parent {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-column-gap: 10px;
-  grid-row-gap: 10px;
+  .shake {
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: shake 0.5s;
+  
+    /* When the animation is finished, start again */
+    animation-iteration-count: infinite;
   }
   
-  .creature-board { grid-area: 1 / 1 / 2 / 4; 
-    border: 1px solid black;
-  }
-  .mana-board { grid-area: 2 / 1 / 3 / 3; 
-    border: 1px solid black;
-  }
-
-  .mana-count { grid-area: 2 / 3 / 3 / 4; 
-    border: 1px solid black;
-  }
-
-  .mana-icon{
-    width: 5rem;
-    height: 5rem;
+  @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
   }
 
-  .red-mana-value{
-    position: absolute;
-    z-index: 10;
-    top: 2.7rem;
-    margin-top: auto; 
-    margin-bottom: auto; 
-    left: 0rem;
-    right: 0rem;
-    margin-left: auto; 
-    margin-right: auto; 
-    color: rgb(255, 255, 255);
-    font-size: 3rem;  
-  }
-
-  .green-mana-value{
-    position: absolute;
-    z-index: 10;
-    top: 6.7rem;
-    left: 0rem;
-    right: 9rem;
-    margin-left: auto; 
-    margin-right: auto; 
-    color: rgb(255, 255, 255);
-    font-size: 3rem;  
-  }
-
-  .blue-mana-value{
-    position: absolute;
-    z-index: 10;
-    top: 6.7rem;
-    left: 9rem;
-    right: 0rem;
-    margin-left: auto; 
-    margin-right: auto; 
-    color: rgb(255, 255, 255);
-    font-size: 3rem;  
-  }
-
-  .black-mana-value{
-    position: absolute;
-    z-index: 10;
-    top: 12.2rem;
-    left: 2rem;
-    right: 8rem;
-    margin-left: auto; 
-    margin-right: auto; 
-    color: rgb(255, 255, 255);
-    font-size: 3rem;  
-  }
-
-  .white-mana-value{
-    position: absolute;
-    z-index: 10;
-    top: 12.2rem;
-    left: 8rem;
-    right: 2rem;
-    margin-left: auto; 
-    margin-right: auto; 
-    color: rgb(255, 255, 255);
-    font-size: 3rem;  
-  }
-
-  .mana-red-icon{
-    position: absolute;
-    top: 2rem;
-    left: 0rem;
-    right: 0rem;
-    margin-left: auto; 
-    margin-right: auto; 
-
-  }
-
-  .mana-green-icon{
-    position: absolute;
-    top: 6rem;
-    left: 0rem;
-    right: 9rem;
-    margin-left: auto; 
-    margin-right: auto; 
-  }
-
-  .mana-blue-icon{
-    position: absolute;
-    top: 6rem;
-    left: 9rem;
-    right: 0rem;
-    margin-left: auto; 
-    margin-right: auto; 
-  }
-
-  .mana-white-icon{
-    position: absolute;
-    top: 11.5rem;
-    left: 8rem;
-    right: 2rem;
-    margin-left: auto; 
-    margin-right: auto; 
-  }
-
-  .mana-black-icon{
-    position: absolute;
-    top: 11.5rem;
-    left: 2rem;
-    right: 8rem;
-    margin-left: auto; 
-    margin-right: auto; 
-  }
-  
-
-  .mana-count{
-    position: relative;
-    background-image: url("./card_images/mana_background.png");
-  }
-
+  /* END ANIMATIONS */
 
 

@@ -5,7 +5,7 @@ export default class Player {
   constructor(deck) {
     this.deck = deck;
     this.hand = [];
-    this.mana = 0;
+    this.mana = { green: 0, red: 0, blue: 0, black: 0, white: 0 };
   }
 
   draw(amount) {
@@ -20,8 +20,10 @@ export default class Player {
 
   playCard(cardId) {
     const card = getCard(cardId);
-    if (card.cost <= this.mana) {
+    const cardColor = card.color;
+    if (card.cost <= this.mana[cardColor]) {
       this.removeCardFromHand(cardId);
+      this.mana[cardColor] -= card.cost;
       return true;
     } else {
       console.log("Not enough mana");
@@ -34,6 +36,13 @@ export default class Player {
     if (cardIndex > -1) {
       this.hand.splice(cardIndex, 1);
     }
+  }
+
+  provideMana(cardId) {
+    const card = allCards.filter((card) => cardId === card.id)[0];
+    const manaColor = card.color;
+    this.mana[manaColor] += 1;
+    return manaColor;
   }
 }
 

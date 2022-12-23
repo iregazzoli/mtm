@@ -84,7 +84,7 @@ export let allCards = [
     id: 8,
     type: CREATURE,
     name: "Ruby",
-    cost: 0, //Change cost later
+    cost: 3, //Change cost later
     color: RED,
     def: 2,
     atk: 4,
@@ -104,15 +104,15 @@ const playerDeck = [
   },
 ];
 
+const playerHand = document.querySelector(".player-hand");
+const playerDeckDiv = document.querySelector(".player-deck");
+const deck = new Deck(playerDeck);
+deck.shuffle();
+const player = new Player(deck);
+
 StartGame();
 
 function StartGame() {
-  const playerHand = document.querySelector(".player-hand");
-  const playerDeckDiv = document.querySelector(".player-deck");
-  const deck = new Deck(playerDeck);
-
-  deck.shuffle();
-  const player = new Player(deck);
   player.draw(INITIAL_AMOUNT_OF_CARDS);
 
   player.hand.forEach((card) => {
@@ -124,31 +124,38 @@ function StartGame() {
     console.log(drawnCards);
     for (let card of drawnCards) {
       const cardDiv = card.getHTML();
-      makeCardPlayable(cardDiv, player, playerHand);
+      makeCardPlayable(cardDiv);
       playerHand.appendChild(cardDiv);
     }
   });
 
   let cards = Array.from(document.getElementsByClassName("card-container"));
   cards.forEach((card) => {
-    makeCardPlayable(card, player, playerHand);
+    makeCardPlayable(card);
   });
 
   console.log(player.deck);
   console.log(player.hand);
 }
 
-function makeCardPlayable(card, player, playerHand) {
-  card.addEventListener("click", (event) => {
-    const cardId = event.target.attributes["card-id"].value;
-    if (player.playCard(Number(cardId))) {
-      removeCardFromHand(playerHand, cardId);
-    }
-  });
+function roma() {
+  playCard(player, playerHand);
+}
+
+function makeCardPlayable(card) {
+  card.addEventListener("click", roma);
+}
+
+function playCard() {
+  const cardId = event.target.attributes["card-id"].value;
+  if (player.playCard(Number(cardId))) {
+    removeCardFromHand(playerHand, cardId);
+    discountManaCount(Number(cardId));
+  }
 }
 
 function removeCardFromHand(playerHand, cardId) {
-  var childs = playerHand.childNodes;
+  let childs = playerHand.childNodes;
   let searchedChild;
 
   // obtains the child whos card-id = search id
@@ -158,11 +165,40 @@ function removeCardFromHand(playerHand, cardId) {
   // removes it from .player-hand div
   const playedCard = playerHand.removeChild(searchedChild);
 
+  // removes the event so they can't be play again
+  makeCardUnplayable(searchedChild);
+
   // adds it to the corresponding board
   if (playedCard.getAttribute("card-id") <= 5) {
     //Think later for a way to not hardcode the 5
     document.querySelector(".mana-board").appendChild(playedCard);
+    // adds event so you can tap it
+    searchedChild.addEventListener("click", () => {
+      searchedChild.classList.add("tapped");
+      addManaCount(player.provideMana(Number(cardId)));
+    });
   } else {
     document.querySelector(".creature-board").appendChild(playedCard);
   }
+}
+
+function makeCardUnplayable(cardDiv) {
+  cardDiv.removeEventListener("click", roma);
+}
+
+function addManaCount(manaColor) {
+  let manaCount = document.querySelector(".mana-count");
+  let manas = Array.from(manaCount.children);
+  const manaDiv = manas.filter((mana) => mana.getAttribute("mana-color") === manaColor)[0];
+  manaDiv.children[0].firstChild.data = Number(manaDiv.children[0].firstChild.data) + 1;
+}
+
+function discountManaCount(cardId) {
+  console.log;
+  const card = allCards.filter((card) => cardId === card.id)[0];
+  let manaCount = document.querySelector(".mana-count");
+  let manas = Array.from(manaCount.children);
+  console.log(card);
+  const manaDiv = manas.filter((mana) => mana.getAttribute("mana-color") === card.color)[0];
+  manaDiv.children[0].firstChild.data = manaDiv.children[0].firstChild.data -= card.cost;
 }

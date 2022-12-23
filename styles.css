@@ -55,4 +55,124 @@ body {
     border: 1px solid black;
   }
 
+  .mana-icon{
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .red-mana-value{
+    position: absolute;
+    z-index: 10;
+    top: 2.7rem;
+    margin-top: auto; 
+    margin-bottom: auto; 
+    left: 0rem;
+    right: 0rem;
+    margin-left: auto; 
+    margin-right: auto; 
+    color: rgb(255, 255, 255);
+    font-size: 3rem;  
+  }
+
+  .green-mana-value{
+    position: absolute;
+    z-index: 10;
+    top: 6.7rem;
+    left: 0rem;
+    right: 9rem;
+    margin-left: auto; 
+    margin-right: auto; 
+    color: rgb(255, 255, 255);
+    font-size: 3rem;  
+  }
+
+  .blue-mana-value{
+    position: absolute;
+    z-index: 10;
+    top: 6.7rem;
+    left: 9rem;
+    right: 0rem;
+    margin-left: auto; 
+    margin-right: auto; 
+    color: rgb(255, 255, 255);
+    font-size: 3rem;  
+  }
+
+  .black-mana-value{
+    position: absolute;
+    z-index: 10;
+    top: 12.2rem;
+    left: 2rem;
+    right: 8rem;
+    margin-left: auto; 
+    margin-right: auto; 
+    color: rgb(255, 255, 255);
+    font-size: 3rem;  
+  }
+
+  .white-mana-value{
+    position: absolute;
+    z-index: 10;
+    top: 12.2rem;
+    left: 8rem;
+    right: 2rem;
+    margin-left: auto; 
+    margin-right: auto; 
+    color: rgb(255, 255, 255);
+    font-size: 3rem;  
+  }
+
+  .mana-red-icon{
+    position: absolute;
+    top: 2rem;
+    left: 0rem;
+    right: 0rem;
+    margin-left: auto; 
+    margin-right: auto; 
+
+  }
+
+  .mana-green-icon{
+    position: absolute;
+    top: 6rem;
+    left: 0rem;
+    right: 9rem;
+    margin-left: auto; 
+    margin-right: auto; 
+  }
+
+  .mana-blue-icon{
+    position: absolute;
+    top: 6rem;
+    left: 9rem;
+    right: 0rem;
+    margin-left: auto; 
+    margin-right: auto; 
+  }
+
+  .mana-white-icon{
+    position: absolute;
+    top: 11.5rem;
+    left: 8rem;
+    right: 2rem;
+    margin-left: auto; 
+    margin-right: auto; 
+  }
+
+  .mana-black-icon{
+    position: absolute;
+    top: 11.5rem;
+    left: 2rem;
+    right: 8rem;
+    margin-left: auto; 
+    margin-right: auto; 
+  }
+  
+
+  .mana-count{
+    position: relative;
+    background-image: url("./card_images/mana_background.png");
+  }
+
+
 

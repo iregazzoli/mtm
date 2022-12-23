@@ -233,3 +233,8 @@ p {
 .frame-art {
   pointer-events: none;
 }
+
+.tapped {
+  rotate: 90deg;
+  filter: brightness(50%);
+}

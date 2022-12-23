@@ -174,8 +174,10 @@ function removeCardFromHand(playerHand, cardId) {
     document.querySelector(".mana-board").appendChild(playedCard);
     // adds event so you can tap it
     searchedChild.addEventListener("click", () => {
-      searchedChild.classList.add("tapped");
-      addManaCount(player.provideMana(Number(cardId)));
+      if (!searchedChild.classList.contains("tapped")) {
+        searchedChild.classList.add("tapped");
+        addManaCount(player.provideMana(Number(cardId)));
+      }
     });
   } else {
     document.querySelector(".creature-board").appendChild(playedCard);

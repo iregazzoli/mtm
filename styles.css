@@ -7,10 +7,22 @@
   height: 20rem;
 }
 
+#pickaxe-cursor{
+  width: 2rem;
+  height: 2rem;
+  content: url("./images/pickaxe.png");
+  position: absolute;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.hidden {
+  display: none;
+}
+
 body {
   margin: 0;
-  padding-top: 1rem;
-  justify-content: center;
+  /* justify-content: center; */
   text-align: center;
 }
 

@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="card_styles.css" />
   </head>
   <body>
+    <div class="hidden" id="pickaxe-cursor"></div>
     <div class="grid-container">
+      <!-- <img class="hidden" id="pickaxe-cursor" alt="pickaxe img" /> -->
+
       <div class="creature-board">creature-board</div>
       <div class="mana-board"></div>
       <div class="mana-count">
@@ -41,7 +44,7 @@
       <div class="player-hand space"></div>
       <div class="buttons">
         <button class="next-turn"><span class="buttonText" id="next-turn-span">Next Turn</span></button>
-        <button class="mine-mineral"><span class="buttonText">Mine Mineral</span></button>
+        <button class="mine-mineral"><span class="buttonText" id="mine-mineral-span">Mine Mineral</span></button>
       </div>
     </div>
   </body>

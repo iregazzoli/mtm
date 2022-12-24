@@ -150,6 +150,19 @@ function StartGame() {
     player.resetMana();
     updateManaCount(player);
   });
+
+  const mineMineralButton = document.getElementById("mine-mineral-span");
+  const pickAxeCursor = document.getElementById("pickaxe-cursor");
+  mineMineralButton.addEventListener("click", () => {
+    pickAxeCursor.classList.toggle("hidden");
+    if (pickAxeCursor.classList.contains("hidden")) document.body.style.cursor = "default";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    pickAxeCursor.setAttribute("style", `top: ${e.pageY - 7}px; left: ${e.pageX - 22}px; `);
+  });
+
+  // mineMineralButton.addEventListener
 }
 
 function unTapGems() {
@@ -208,6 +221,13 @@ function removeCardFromHand(playerHand, cardId) {
     });
   } else {
     document.querySelector(".creature-board").appendChild(playedCard);
+    playedCard.addEventListener("click", () => {
+      const pickAxeCursor = document.getElementById("pickaxe-cursor");
+      if (!pickAxeCursor.classList.contains("hidden")) {
+        pickAxeCursor.classList.add("hidden");
+        document.body.style.cursor = "default";
+      }
+    });
   }
 }
 

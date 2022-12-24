@@ -14,10 +14,10 @@ body {
   text-align: center;
 }
 
-/* GRID SECTIONO */
+/* GRID SECTION */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(5, 25rem);
+  grid-template-columns: repeat(5, minmax(22rem, auto)) min(12rem);
   grid-template-rows: repeat(3, minmax(21rem, auto));
   grid-column-gap: 10px;
   grid-row-gap: 10px;
@@ -38,13 +38,17 @@ body {
 
 .player-deck{
   grid-area: 3 / 1 / 4 / 2; 
-  margin-left: 5rem;
+  margin-left: 6.5rem;
   float: left;
 }
 
 .player-hand{
   border: 1px solid black;
   grid-area: 3 / 2 / 4 / 6;
+}
+
+.buttons{
+  grid-area: 2 / 6 / 3 / 7;
 }
  /* END OF GRID SECTION */
   
@@ -202,3 +206,51 @@ body {
   /* END ANIMATIONS */
 
 
+/* BUTTONS */
+
+button{
+  background-image: linear-gradient(to right, #006175 0%, #00a950 100%);
+    border-radius: 40px;
+    box-sizing: border-box;
+    color: #00a84f;
+    display: block;
+    height: 50px;
+    font-size: 1.4em;
+    padding: 4px;
+    position: relative;
+    text-decoration: none;
+    width: 7em;
+    z-index: 2;
+}
+
+button:hover{
+  color: #fff;
+  cursor: pointer;
+}
+
+
+.next-turn {
+  margin-top: 6.5rem;
+}
+
+.mine-mineral{
+  margin-top: 1rem;
+}
+
+  
+button .buttonText {
+  align-items: center;
+  background: #0e0e10;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  transition: background 0.5s ease;
+  width: 100%;
+}
+
+button:hover .buttonText {
+  background: transparent;
+}
+
+  /* /BUTTONS */

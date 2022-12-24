@@ -144,11 +144,25 @@ function StartGame() {
     makeCardPlayable(card);
   });
 
-  console.log(player.deck);
-  console.log(player.hand);
+  const nextTurnButton = document.getElementById("next-turn-span");
+  nextTurnButton.addEventListener("click", () => {
+    unTapGems();
+    player.resetMana();
+    updateManaCount(player);
+  });
+}
+
+function unTapGems() {
+  const manasPlayed = Array.from(document.querySelector(".mana-board").children);
+  manasPlayed.forEach((mana) => {
+    if (mana.classList.contains("tapped")) {
+      mana.classList.remove("tapped");
+    }
+  });
 }
 
 function roma() {
+  //TODO ask roma a actual name for this later
   playCard(player, playerHand);
 }
 
@@ -160,7 +174,7 @@ function playCard() {
   const cardId = event.target.attributes["card-id"].value;
   if (player.playCard(Number(cardId))) {
     removeCardFromHand(playerHand, cardId);
-    discountManaCount(Number(cardId));
+    updateManaCount(player);
   } else {
     shakeManaIcon(Number(cardId));
   }
@@ -188,7 +202,8 @@ function removeCardFromHand(playerHand, cardId) {
     searchedChild.addEventListener("click", () => {
       if (!searchedChild.classList.contains("tapped")) {
         searchedChild.classList.add("tapped");
-        addManaCount(player.provideMana(Number(cardId)));
+        player.provideMana(Number(cardId));
+        updateManaCount(player);
       }
     });
   } else {
@@ -200,19 +215,12 @@ function makeCardUnplayable(cardDiv) {
   cardDiv.removeEventListener("click", roma);
 }
 
-function addManaCount(manaColor) {
-  let manaCount = document.querySelector(".mana-count");
-  let manas = Array.from(manaCount.children);
-  const manaDiv = manas.filter((mana) => mana.getAttribute("mana-color") === manaColor)[0];
-  manaDiv.children[0].firstChild.data = Number(manaDiv.children[0].firstChild.data) + 1;
-}
-
-function discountManaCount(cardId) {
-  const card = allCards.filter((card) => cardId === card.id)[0];
-  let manaCount = document.querySelector(".mana-count");
-  let manas = Array.from(manaCount.children);
-  const manaDiv = manas.filter((mana) => mana.getAttribute("mana-color") === card.color)[0];
-  manaDiv.children[0].firstChild.data = manaDiv.children[0].firstChild.data -= card.cost;
+function updateManaCount(player) {
+  const manaCount = document.querySelector(".mana-count");
+  const manaDIVs = Array.from(manaCount.children);
+  for (let divs of manaDIVs) {
+    divs.children[0].firstChild.data = player.mana[divs.getAttribute("mana-color")];
+  }
 }
 
 function shakeManaIcon(cardId) {

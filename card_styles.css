@@ -15,6 +15,7 @@ img {
   border-radius: .7rem;
 }
 
+/* CARD CONTAINER */
 .card-container {
   display: inline-block;
   border: 1px solid black;
@@ -27,11 +28,34 @@ img {
   margin-left: 1rem;
   background: #171314;
   cursor: pointer;
+  /* position: relative; */
  }
 
  .card-container:hover{
   transform: scale(1.05);
  }
+
+ .card-container.green:hover {
+  box-shadow: 0 0 2rem #005c0d;
+ }
+
+ .card-container.red:hover {
+  box-shadow: 0 0 2rem #b10000;
+ }
+
+ .card-container.blue:hover {
+  box-shadow: 0 0 2rem #0014c7;
+ }
+
+ .card-container.white:hover {
+  box-shadow: 0 0 2rem #979797;
+ }
+
+ .card-container.black:hover {
+  box-shadow: 0 0 2rem #000000;
+ }
+
+ /* /CARD CONTAINER */
 
  .card-background {
   height: 90%;

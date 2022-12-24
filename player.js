@@ -44,6 +44,10 @@ export default class Player {
     this.mana[manaColor] += 1;
     return manaColor;
   }
+
+  resetMana() {
+    this.mana = { green: 0, red: 0, blue: 0, black: 0, white: 0 };
+  }
 }
 
 function getCard(cardId) {

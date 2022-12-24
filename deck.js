@@ -100,7 +100,7 @@ class Creature extends Card {
     att.value = this.id;
     cardContainer.setAttributeNode(att);
 
-    cardContainer.classList.add("card-container"); //parent
+    cardContainer.classList.add("card-container", this.color); //parent
     cardBackground.classList.add("card-background");
     cardFrame.classList.add("card-frame");
     cardFrameHeader.classList.add("frame-header", this.color);
@@ -153,7 +153,7 @@ class Mana extends Card {
     att.value = this.id;
     cardContainer.setAttributeNode(att);
 
-    cardContainer.classList.add("card-container");
+    cardContainer.classList.add("card-container", this.color);
     cardBackground.classList.add("card-background");
     cardFrame.classList.add("card-frame");
     cardFrameHeader.classList.add("frame-header", this.color);

@@ -8,13 +8,13 @@
     <script src="script.js" type="module"></script>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="card_styles.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   </head>
   <body>
     <div class="hidden" id="pickaxe-cursor"></div>
     <div class="grid-container">
-      <!-- <img class="hidden" id="pickaxe-cursor" alt="pickaxe img" /> -->
-
-      <div class="creature-board">creature-board</div>
+      <div class="creature-board"></div>
       <div class="mana-board"></div>
       <div class="mana-count">
         <div class="red-Mana" mana-color="red">
@@ -42,12 +42,13 @@
         <img id="deck-img" src="./card_images/card_reverse_side.jpg" alt="Card Reverse side" />
       </div>
       <div class="graveyard">
-        <img id="deck-img" src="./card_images/graveyard.png" alt="Card Reverse side" />
+        <img id="graveyard-img" src="./card_images/graveyard.png" alt="Card Reverse side" />
       </div>
       <div class="player-hand space"></div>
       <div class="buttons">
         <button class="next-turn"><span class="buttonText" id="next-turn-span">Next Turn</span></button>
         <button class="mine-mineral"><span class="buttonText" id="mine-mineral-span">Mine Mineral</span></button>
+        <button class="mute-unmute-button"><span class="material-symbols-outlined buttonText unmuted" id="mute-unmute-button-span">volume_off</span></button>
       </div>
     </div>
   </body>

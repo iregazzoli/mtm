@@ -198,7 +198,12 @@ margin-bottom: 7px;
 p {
   margin-bottom: 0.313rem;
   margin: 0.313rem 0.063rem;
+  font-style: italic;
  }
+
+.sacrifice-text{
+  font-style:normal;
+}
 
 .card-frame-text.green {
   box-shadow: 
@@ -261,4 +266,8 @@ p {
 .tapped {
   rotate: 90deg;
   filter: brightness(50%);
+}
+
+.onGraveyard {
+  position: absolute;
 }

@@ -48,11 +48,11 @@ function createCard(cardFeatures) {
   let cardColor = cardFeatures.color;
   let cardEffect = cardFeatures.effect;
   let cardId = cardFeatures.id;
-
   if (cardType === "mineral") {
+    let cardSacrifice = cardFeatures.sacrifice;
     let cardAtk = cardFeatures.atk;
     let cardDef = cardFeatures.def;
-    return new Creature(cardId, cardName, cardCost, cardColor, cardEffect, cardAtk, cardDef);
+    return new Creature(cardId, cardName, cardCost, cardColor, cardEffect, cardSacrifice, cardAtk, cardDef);
   } else if (cardType === "gem") return new Mana(cardId, cardName, cardCost, cardColor, cardEffect);
 }
 
@@ -67,8 +67,9 @@ class Card {
 }
 
 class Creature extends Card {
-  constructor(id, name, cost, color, effect, atk, def) {
+  constructor(id, name, cost, color, effect, sacrifice, atk, def) {
     super(id, name, cost, color, effect);
+    this.sacrifice = sacrifice;
     this.atk = atk;
     this.def = def;
   }
@@ -90,7 +91,8 @@ class Creature extends Card {
     const cardFrameType = document.createElement("div"); // Creature vs Mana (vs instant or enchanment on the future)
     const cardFrameText = document.createElement("div"); // Effect Text
     const cardFrameStats = document.createElement("div");
-    const cardText = document.createElement("p");
+    const cardSacrifice = document.createElement("p");
+    const cardFlavor = document.createElement("p");
     const cardName = document.createElement("h1");
     const cardType = document.createElement("h1");
     const cardStats = document.createElement("h1");
@@ -107,13 +109,15 @@ class Creature extends Card {
     cardFrameType.classList.add("card-frame-type", this.color);
     cardFrameText.classList.add("card-frame-text", this.color);
     cardFrameStats.classList.add("card-frame-stats", this.color);
+    cardSacrifice.classList.add("sacrifice-text");
     cardImg.classList.add("frame-art", this.color);
     cardName.classList.add("card-name");
     cardType.classList.add("card-type");
     cardStats.classList.add("card-stats");
 
     cardStats.innerHTML = `${this.atk} / ${this.def}`;
-    cardText.innerHTML = this.effect;
+    cardSacrifice.innerHTML = `Provides ${this.sacrifice} mana when sacrificed`;
+    cardFlavor.innerHTML = this.effect;
     cardName.innerHTML = this.name;
     cardType.innerHTML = "Creature";
     cardImg.src = `./card_images/${this.name}C.png`;
@@ -122,7 +126,8 @@ class Creature extends Card {
     cardFrameHeader.appendChild(cardName);
     this.createManaIcons(cardFrameHeader);
     cardFrameType.appendChild(cardType);
-    cardFrameText.appendChild(cardText);
+    cardFrameText.appendChild(cardSacrifice);
+    cardFrameText.appendChild(cardFlavor);
     cardFrame.append(cardFrameHeader, cardImg, cardFrameType, cardFrameText, cardFrameStats);
 
     cardBackground.appendChild(cardFrame);
@@ -144,7 +149,7 @@ class Mana extends Card {
     const cardFrameHeader = document.createElement("div"); // Name and mana icons
     const cardFrameType = document.createElement("div"); // Creature vs Mana (vs instant or enchanment on the future)
     const cardFrameText = document.createElement("div"); // Effect Text
-    const cardText = document.createElement("p");
+    const cardFlavor = document.createElement("p");
     const cardName = document.createElement("h1");
     const cardType = document.createElement("h1");
     const cardImg = document.createElement("img");
@@ -163,14 +168,14 @@ class Mana extends Card {
     cardName.classList.add("card-name");
     cardType.classList.add("card-type");
 
-    cardText.innerHTML = this.effect;
+    cardFlavor.innerHTML = this.effect;
     cardName.innerHTML = this.name;
     cardType.innerHTML = "Gem";
     cardImg.src = `./card_images/${this.name}.png`;
 
     cardFrameHeader.appendChild(cardName);
     cardFrameType.appendChild(cardType);
-    cardFrameText.appendChild(cardText);
+    cardFrameText.appendChild(cardFlavor);
     cardFrame.append(cardFrameHeader, cardImg, cardFrameType, cardFrameText);
 
     cardBackground.appendChild(cardFrame);

@@ -5,6 +5,7 @@ export default class Player {
   constructor(deck) {
     this.deck = deck;
     this.hand = [];
+    this.graveyard = [];
     this.mana = { green: 0, red: 0, blue: 0, black: 0, white: 0 };
   }
 
@@ -29,6 +30,19 @@ export default class Player {
       console.log("Not enough mana");
       return false;
     }
+  }
+
+  mineCreature(cardId) {
+    const card = getCard(cardId);
+    const manaColor = card.color;
+    const cardSacrificeAmount = card.sacrifice;
+    this.mana[manaColor] += cardSacrificeAmount;
+    this.sendCardToGraveyard(card);
+  }
+
+  sendCardToGraveyard(card) {
+    //for the moment this receives the card maybe in the future it will be the cardId
+    this.graveyard.push(card);
   }
 
   removeCardFromHand(cardId) {

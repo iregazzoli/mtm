@@ -141,7 +141,7 @@ class AudioController {
     this.sex = new Audio("./audio/sex.mp3");
     this.dameDaNe = new Audio("./audio/dame_da_ne.mp3");
     this.drawCardEffect = new Audio("./audio/deal_card.mp3");
-    this.bgMusic.volume = 0.01;
+    this.bgMusic.volume = 0.1;
     this.sex.volume = 0.02;
     this.dameDaNe.volume = 0.02;
   }
@@ -171,17 +171,19 @@ class AudioController {
   }
 }
 
-const playerHand = document.querySelector(".player-hand");
-const playerDeckDiv = document.querySelector(".player-deck");
+const playerHand = document.querySelector("#player-hand");
+const playerDeckDiv = document.querySelector("#player-deck");
 const deck = new Deck(playerDeck);
 deck.shuffle();
 const player = new Player(deck);
 const audioController = new AudioController();
 
 StartGame();
-audioController.startBg();
 
 function StartGame() {
+  window.addEventListener("mousemove", () => {
+    audioController.startBg();
+  });
   player.draw(INITIAL_AMOUNT_OF_CARDS);
 
   player.hand.forEach((card) => {
@@ -239,7 +241,7 @@ function StartGame() {
 }
 
 function unTapGems() {
-  const manasPlayed = Array.from(document.querySelector(".mana-board").children);
+  const manasPlayed = Array.from(document.querySelector("#player-mana-board").children);
   manasPlayed.forEach((mana) => {
     if (mana.classList.contains("tapped")) {
       mana.classList.remove("tapped");
@@ -247,13 +249,12 @@ function unTapGems() {
   });
 }
 
-function roma() {
-  //TODO ask roma a actual name for this later
+function playCardFromHand() {
   playCard(player, playerHand);
 }
 
 function makeCardPlayable(card) {
-  card.addEventListener("click", roma);
+  card.addEventListener("click", playCardFromHand);
 }
 
 function playCard() {
@@ -288,7 +289,7 @@ function removeCardFromHand(playerHand, cardId) {
   // adds it to the corresponding board
   if (playedCard.getAttribute("card-id") <= 5) {
     //Think later for a way to not hardcode the 5
-    document.querySelector(".mana-board").appendChild(playedCard);
+    document.querySelector("#player-mana-board").appendChild(playedCard);
     // adds event so you can tap it
     searchedChild.addEventListener("click", () => {
       if (!searchedChild.classList.contains("tapped")) {
@@ -318,11 +319,11 @@ function removeCardFromHand(playerHand, cardId) {
 }
 
 function makeCardUnplayable(cardDiv) {
-  cardDiv.removeEventListener("click", roma);
+  cardDiv.removeEventListener("click", playCardFromHand);
 }
 
 function updateManaCount(player) {
-  const manaCount = document.querySelector(".mana-count");
+  const manaCount = document.querySelector("#player-mana-count");
   const manaDIVs = Array.from(manaCount.children);
   for (let divs of manaDIVs) {
     divs.children[0].firstChild.data = player.mana[divs.getAttribute("mana-color")];
@@ -330,22 +331,21 @@ function updateManaCount(player) {
 }
 
 function shakeManaIcon(cardId) {
+  //Finds the correct mana icon
   const card = allCards.filter((card) => cardId === card.id)[0];
-  let manaCount = document.querySelector(".mana-count");
+  let manaCount = document.querySelector("#player-mana-count");
   let manas = Array.from(manaCount.children);
   const manaDiv = manas.filter((mana) => mana.getAttribute("mana-color") === card.color)[0];
   const manaIcon = manaDiv.children[1];
 
   manaIcon.classList.add("shake");
 
-  function removeShake() {
+  window.setTimeout(() => {
     manaIcon.classList.remove("shake");
-  }
-  const interval = window.setInterval(removeShake, 500);
-  window.clearInterval(interval);
+  }, 500);
 }
 
 function moveCardToGraveyard(cardDiv) {
-  const playerGraveyardDiv = document.querySelector(".graveyard");
+  const playerGraveyardDiv = document.querySelector("#player-graveyard");
   playerGraveyardDiv.appendChild(cardDiv);
 }

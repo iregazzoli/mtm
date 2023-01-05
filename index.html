@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minerals The Meeting</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="script.js" type="module"></script>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="card_styles.css" />
@@ -14,9 +15,9 @@
   <body>
     <div class="hidden" id="pickaxe-cursor"></div>
     <div class="grid-container">
-      <div class="creature-board"></div>
-      <div class="mana-board"></div>
-      <div class="mana-count">
+      <div class="creature-board" id="player-creature-board"></div>
+      <div class="mana-board" id="player-mana-board"></div>
+      <div class="mana-count" id="player-mana-count">
         <div class="red-Mana" mana-color="red">
           <div class="red-mana-value">0</div>
           <img class="mana-red-icon mana-icon" src="./card_images/manared.png" alt="mana red icon" />
@@ -38,13 +39,13 @@
           <img class="mana-white-icon mana-icon" src="./card_images/manawhite.png" alt="mana white icon" />
         </div>
       </div>
-      <div class="player-deck">
+      <div class="deck" id="player-deck">
         <img id="deck-img" src="./card_images/card_reverse_side.jpg" alt="Card Reverse side" />
       </div>
-      <div class="graveyard">
+      <div class="graveyard" id="player-graveyard">
         <img id="graveyard-img" src="./card_images/graveyard.png" alt="Card Reverse side" />
       </div>
-      <div class="player-hand space"></div>
+      <div class="player-hand space" id="player-hand"></div>
       <div class="buttons">
         <button class="next-turn"><span class="buttonText" id="next-turn-span">Next Turn</span></button>
         <button class="mine-mineral"><span class="buttonText" id="mine-mineral-span">Mine Mineral</span></button>

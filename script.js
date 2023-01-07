@@ -200,22 +200,17 @@ class AudioController {
   }
 }
 
-const playerDeck = new Deck(playerDeckSpecs);
-playerDeck.shuffle();
-
-const player = new Player(playerDeck);
-const playerHand = document.querySelector("#player-hand");
-const playerDeckDiv = document.querySelector("#player-deck");
-const playerMana = document.querySelector("#player-mana-board");
-const playerCreatures = document.querySelector("#player-creature-board");
-
-const opponentDeck = new Deck(opponentDeckSpecs);
-opponentDeck.shuffle();
-const opponent = new Player(opponentDeck);
-const opponentHand = document.querySelector("#opponent-hand");
-const opponentDeckDiv = document.querySelector("#opponent-deck");
-const opponenttMana = document.querySelector("#opponent-mana-board");
-const opponentCreatures = document.querySelector("#opponent-creature-board");
+class PlayerRepresentation {
+  //change for player
+  constructor(player, playerHand, playerDeck, playerLands, playerMana, playerCreatures) {
+    this.player = player;
+    this.hand = playerHand;
+    this.deck = playerDeck;
+    this.lands = playerLands;
+    this.mana = playerMana;
+    this.creatures = playerCreatures;
+  }
+}
 
 const audioController = new AudioController();
 
@@ -226,20 +221,51 @@ function StartGame() {
     audioController.startBg();
   });
 
-  dealCards();
-  makeDecksDealCards(); //eventually i will change it so you draw cards only at the beginning of the turn
+  const player1Deck = new Deck(playerDeckSpecs);
+  player1Deck.shuffle();
 
-  let cards = Array.from(document.getElementsByClassName("card-container"));
-  cards.forEach((card) => {
-    makeCardPlayable(card);
-  });
+  const player1 = new Player(player1Deck);
+  const player1Hand = document.querySelector("#player-hand");
+  const player1DeckDiv = document.querySelector("#player-deck");
+  const player1Lands = document.querySelector("#player-mana-board");
+  const player1Mana = document.querySelector("#player-mana-count");
+  const player1Creatures = document.querySelector("#player-creature-board");
+
+  const player2Deck = new Deck(opponentDeckSpecs);
+  player2Deck.shuffle();
+  const player2 = new Player(player2Deck);
+  const player2Hand = document.querySelector("#opponent-hand");
+  const player2DeckDiv = document.querySelector("#opponent-deck");
+  const player2Lands = document.querySelector("#opponent-mana-board");
+  const player2Mana = document.querySelector("#opponent-mana-count");
+  const player2Creatures = document.querySelector("#opponent-creature-board");
+
+  const player1Representation = new PlayerRepresentation(player1, player1Hand, player1DeckDiv, player1Lands, player1Mana, player1Creatures);
+  const player2Representation = new PlayerRepresentation(player2, player2Hand, player2DeckDiv, player2Lands, player2Mana, player2Creatures);
+
+  let playerPlaying = player1Representation;
+
+  dealCards(player1Representation);
+  dealCards(player2Representation);
+  makeDecksDealCards(player1Representation); //eventually i will change it so you draw cards only at the beginning of the turn
+  makeDecksDealCards(player2Representation);
+
+  // let cards = Array.from(document.getElementsByClassName("card-container")); //Fix this
+  // cards.forEach((card) => {
+  //   makeCardPlayable(card);
+  // });
 
   const nextTurnButtons = document.getElementsByClassName("next-turn-span");
   for (let button of nextTurnButtons) {
     button.addEventListener("click", () => {
-      unTapGems();
-      player.resetMana();
-      updateManaCount(player);
+      unTapGems(playerPlaying.lands);
+      playerPlaying.player.resetMana();
+      updateManaCount(playerPlaying);
+      if (playerPlaying.player === player1) {
+        playerPlaying = player2Representation;
+      } else {
+        playerPlaying = player1Representation;
+      }
     });
   }
 
@@ -250,12 +276,12 @@ function StartGame() {
       audioController.sex.muted = !audioController.sex.muted;
       audioController.dameDaNe.muted = !audioController.dameDaNe.muted;
 
-      if (muteButton.classList.contains("unmuted")) {
-        muteButton.innerHTML = "volume_up";
+      if (button.classList.contains("unmuted")) {
+        button.innerHTML = "volume_up";
       } else {
-        muteButton.innerHTML = "volume_off";
+        button.innerHTML = "volume_off";
       }
-      muteButton.classList.toggle("unmuted");
+      button.classList.toggle("unmuted");
     });
   }
 
@@ -269,52 +295,41 @@ function StartGame() {
     });
 
     document.addEventListener("mousemove", (e) => {
+      // makeCardPlayable;
       pickAxeCursor.setAttribute("style", `top: ${e.pageY - 7}px; left: ${e.pageX - 22}px; `);
     });
   }
 }
 
-function dealCards() {
-  player.draw(INITIAL_AMOUNT_OF_CARDS);
+//end of startGame
 
-  player.hand.forEach((card) => {
-    playerHand.appendChild(card.getHTML());
-  });
+function dealCards(playerRepresentation) {
+  playerRepresentation.player.draw(INITIAL_AMOUNT_OF_CARDS);
 
-  opponent.draw(INITIAL_AMOUNT_OF_CARDS);
-
-  opponent.hand.forEach((card) => {
-    opponentHand.appendChild(card.getHTML());
+  playerRepresentation.player.hand.forEach((card) => {
+    const cardDiv = card.getHTML();
+    playerRepresentation.hand.appendChild(cardDiv);
+    makeCardPlayable(cardDiv, playerRepresentation);
   });
 }
 
-function makeDecksDealCards() {
-  playerDeckDiv.addEventListener("click", () => {
-    const drawnCards = player.draw(1); // Still getting the error "TypeError: Cannot read properties of undefined (reading 'getHTML')"
-    audioController.drawCard();
-    console.log(drawnCards);
-    for (let card of drawnCards) {
-      const cardDiv = card.getHTML();
+function makeDecksDealCards(playerRepresentation) {
+  playerRepresentation.deck.addEventListener("click", () => {
+    const drawnCards = playerRepresentation.player.draw(1); // Still getting the error "TypeError: Cannot read properties of undefined (reading 'getHTML')"
+    if (drawnCards[0] !== undefined) {
+      audioController.drawCard();
+      for (let card of drawnCards) {
+        const cardDiv = card.getHTML();
 
-      // THIS IS THE IMPORTANT PART
-      makeCardPlayable(cardDiv, player, playerHand);
-      playerHand.appendChild(cardDiv);
-    }
-  });
-
-  opponentDeckDiv.addEventListener("click", () => {
-    const drawnCards = opponent.draw(1); // Still getting the error "TypeError: Cannot read properties of undefined (reading 'getHTML')"
-    audioController.drawCard();
-    console.log(drawnCards);
-    for (let card of drawnCards) {
-      const cardDiv = card.getHTML();
-      makeCardPlayable(cardDiv, opponent, opponentHand);
-      opponentHand.appendChild(cardDiv);
+        // THIS IS THE IMPORTANT PART
+        makeCardPlayable(cardDiv, playerRepresentation);
+        playerRepresentation.hand.appendChild(cardDiv);
+      }
     }
   });
 }
 
-function unTapGems() {
+function unTapGems(playerMana) {
   const manasPlayed = Array.from(playerMana.children);
   manasPlayed.forEach((mana) => {
     if (mana.classList.contains("tapped")) {
@@ -323,97 +338,83 @@ function unTapGems() {
   });
 }
 
-function playCardFromHand(player, hand) {
-  playCard(player, hand);
-}
-
-function makeCardPlayable(card, player, hand) {
-  //TODO FIX THIS
+function makeCardPlayable(card, playerRepresentation) {
   card.addEventListener("click", () => {
-    playCardFromHand(player, hand);
+    playCard(playerRepresentation, card);
   });
 }
 
-function playCard(player, playerHand) {
-  console.log(player);
-  console.log(playerHand);
+function playCard(playerRepresentation, card) {
   // finds the correct card id
   const cardId = event.target.attributes["card-id"].value;
-  if (player.playCard(Number(cardId))) {
-    if (cardId >= 5) {
-      audioController.stopMusic();
-      audioController.startSex();
-    }
-    removeCardFromHand(playerHand, cardId);
-    updateManaCount(player);
-  } else {
-    shakeManaIcon(Number(cardId));
-  }
-}
-
-function removeCardFromHand(playerHand, cardId) {
-  let childs = playerHand.childNodes;
-  let searchedChild;
-
-  // obtains the child whos card-id = search id
-  for (let child of childs) {
-    if (child.getAttribute("card-id") === cardId) searchedChild = child; //for future reference with this way you end up with a reference to the LAST card in your hand with matching id
-  }
-  // removes it from .player-hand div
-  const playedCard = playerHand.removeChild(searchedChild);
-
-  // removes the event so they can't be play again
-  makeCardUnplayable(searchedChild);
-
-  // adds it to the corresponding board
-  if (playedCard.getAttribute("card-id") <= 5) {
-    //Think later for a way to not hardcode the 5
-    playerMana.appendChild(playedCard);
-    // adds event so you can tap it
-    searchedChild.addEventListener("click", () => {
-      if (!searchedChild.classList.contains("tapped")) {
-        searchedChild.classList.add("tapped");
-        player.provideMana(Number(cardId));
-        updateManaCount(player);
+  //this is if the card is in the hand
+  if (card.getAttribute("location") === "hand") {
+    if (playerRepresentation["player"].playCard(Number(cardId))) {
+      if (cardId > 5) {
+        audioController.stopMusic();
+        audioController.startSex();
+        updateManaCount(playerRepresentation);
       }
-    });
-  } else {
-    playerCreatures.appendChild(playedCard);
-    playedCard.addEventListener("click", () => {
+      card.setAttribute("location", "board");
+      removeCardFromHand(playerRepresentation, card);
+    } else {
+      shakeManaIcon(Number(cardId), playerRepresentation.mana);
+    }
+  } else if (card.getAttribute("location") === "board") {
+    if (card.getAttribute("card-id") <= 5) {
+      //Think later for a way to not hardcode the 5
+      // adds event so you can tap it
+      if (!card.classList.contains("tapped")) {
+        card.classList.add("tapped");
+        playerRepresentation.player.provideMana(Number(cardId));
+        updateManaCount(playerRepresentation);
+      }
+    } else {
       const pickAxeCursor = document.getElementById("pickaxe-cursor");
       if (!pickAxeCursor.classList.contains("hidden")) {
         pickAxeCursor.classList.add("hidden");
         document.body.style.cursor = "default";
-        console.log();
         audioController.stopMusic();
         audioController.startDameDaNe();
-        player.mineCreature(Number(cardId));
-        updateManaCount(player);
-        moveCardToGraveyard(playedCard);
-        playedCard.classList.add("onGraveyard");
-        playedCard.style["z-index"] = player.graveyard.length;
+        playerRepresentation.player.mineCreature(Number(cardId));
+        updateManaCount(playerRepresentation);
+        moveCardToGraveyard(card);
+        card.classList.add("onGraveyard");
+        card.style["z-index"] = playerRepresentation.player.graveyard.length;
       }
-    });
+    }
   }
 }
 
-function makeCardUnplayable(cardDiv) {
+function removeCardFromHand(playerRepresentation, card) {
+  // removes it from .player-hand div
+  const playedCard = playerRepresentation.hand.removeChild(card);
+
+  // adds it to the corresponding board
+  if (playedCard.getAttribute("card-id") <= 5) {
+    //Think later for a way to not hardcode the 5
+    playerRepresentation.lands.appendChild(playedCard);
+  } else {
+    playerRepresentation.creatures.appendChild(playedCard);
+  }
+}
+
+function makeCardUnplayable(cardDiv, playCardFromHand) {
+  console.log("hey");
   cardDiv.removeEventListener("click", playCardFromHand);
 }
 
-function updateManaCount(player) {
-  const manaCount = document.querySelector("#player-mana-count");
-  const manaDIVs = Array.from(manaCount.children);
+function updateManaCount(playerRepresentation) {
+  const manaDIVs = Array.from(playerRepresentation.mana.children);
   for (let divs of manaDIVs) {
-    divs.children[0].firstChild.data = player.mana[divs.getAttribute("mana-color")];
+    divs.children[0].firstChild.data = playerRepresentation.player.mana[divs.getAttribute("mana-color")];
   }
 }
 
-function shakeManaIcon(cardId) {
+function shakeManaIcon(cardId, playerMana) {
   //Finds the correct mana icon
   const card = allCards.filter((card) => cardId === card.id)[0];
-  let manaCount = document.querySelector("#player-mana-count");
-  let manas = Array.from(manaCount.children);
+  let manas = Array.from(playerMana.children);
   const manaDiv = manas.filter((mana) => mana.getAttribute("mana-color") === card.color)[0];
   const manaIcon = manaDiv.children[1];
 

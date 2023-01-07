@@ -98,9 +98,13 @@ class Creature extends Card {
     const cardStats = document.createElement("h1");
     const cardImg = document.createElement("img");
 
-    var att = document.createAttribute("card-id");
+    let att = document.createAttribute("card-id");
     att.value = this.id;
     cardContainer.setAttributeNode(att);
+
+    let location = document.createAttribute("location");
+    location.value = "hand";
+    cardContainer.setAttributeNode(location);
 
     cardContainer.classList.add("card-container", this.color); //parent
     cardBackground.classList.add("card-background");
@@ -154,9 +158,13 @@ class Mana extends Card {
     const cardType = document.createElement("h1");
     const cardImg = document.createElement("img");
 
-    var att = document.createAttribute("card-id");
+    let att = document.createAttribute("card-id");
     att.value = this.id;
     cardContainer.setAttributeNode(att);
+
+    let location = document.createAttribute("location");
+    location.value = "hand";
+    cardContainer.setAttributeNode(location);
 
     cardContainer.classList.add("card-container", this.color);
     cardBackground.classList.add("card-background");

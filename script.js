@@ -46,7 +46,7 @@ export let allCards = [
     name: "Quartz",
     cost: 0,
     color: WHITE,
-    effect: "Provides 1 red mana.",
+    effect: "Provides 1 white mana.",
   },
 
   {
@@ -55,7 +55,7 @@ export let allCards = [
     name: "Amethyst",
     cost: 0,
     color: BLACK,
-    effect: "Provides 1 red mana.",
+    effect: "Provides 1 black mana.",
   },
 
   {
@@ -105,16 +105,28 @@ export let allCards = [
     atk: 0,
     effect: "A gem burning passion ready to put her life in line for the sake of her companions.",
   },
+
+  {
+    id: 10,
+    type: CREATURE,
+    name: "Obsidian",
+    cost: 2,
+    sacrifice: 1,
+    color: BLACK,
+    def: 2,
+    atk: 2,
+    effect: "A gem very dedicated to their job and will make others weapons without hesitation if requested to.",
+  },
 ];
 
-const playerDeck = [
+const playerDeckSpecs = [
   {
     id: 9,
     copies: 3,
   },
 
   {
-    id: 7,
+    id: 6,
     copies: 3,
   },
 
@@ -124,13 +136,30 @@ const playerDeck = [
   },
 
   {
-    id: 9,
+    id: 3,
+    copies: 4,
+  },
+];
+
+const opponentDeckSpecs = [
+  {
+    id: 10,
+    copies: 4,
+  },
+
+  {
+    id: 8,
     copies: 2,
   },
 
   {
-    id: 3,
+    id: 5,
     copies: 4,
+  },
+
+  {
+    id: 2,
+    copies: 3,
   },
 ];
 
@@ -171,11 +200,23 @@ class AudioController {
   }
 }
 
+const playerDeck = new Deck(playerDeckSpecs);
+playerDeck.shuffle();
+
+const player = new Player(playerDeck);
 const playerHand = document.querySelector("#player-hand");
 const playerDeckDiv = document.querySelector("#player-deck");
-const deck = new Deck(playerDeck);
-deck.shuffle();
-const player = new Player(deck);
+const playerMana = document.querySelector("#player-mana-board");
+const playerCreatures = document.querySelector("#player-creature-board");
+
+const opponentDeck = new Deck(opponentDeckSpecs);
+opponentDeck.shuffle();
+const opponent = new Player(opponentDeck);
+const opponentHand = document.querySelector("#opponent-hand");
+const opponentDeckDiv = document.querySelector("#opponent-deck");
+const opponenttMana = document.querySelector("#opponent-mana-board");
+const opponentCreatures = document.querySelector("#opponent-creature-board");
+
 const audioController = new AudioController();
 
 StartGame();
@@ -184,64 +225,97 @@ function StartGame() {
   window.addEventListener("mousemove", () => {
     audioController.startBg();
   });
-  player.draw(INITIAL_AMOUNT_OF_CARDS);
 
-  player.hand.forEach((card) => {
-    playerHand.appendChild(card.getHTML());
-  });
-
-  playerDeckDiv.addEventListener("click", () => {
-    const drawnCards = player.draw(1); // Still getting the error "TypeError: Cannot read properties of undefined (reading 'getHTML')"
-    audioController.drawCard();
-    console.log(drawnCards);
-    for (let card of drawnCards) {
-      const cardDiv = card.getHTML();
-      makeCardPlayable(cardDiv);
-      playerHand.appendChild(cardDiv);
-    }
-  });
+  dealCards();
+  makeDecksDealCards(); //eventually i will change it so you draw cards only at the beginning of the turn
 
   let cards = Array.from(document.getElementsByClassName("card-container"));
   cards.forEach((card) => {
     makeCardPlayable(card);
   });
 
-  const nextTurnButton = document.getElementById("next-turn-span");
-  nextTurnButton.addEventListener("click", () => {
-    unTapGems();
-    player.resetMana();
-    updateManaCount(player);
-  });
+  const nextTurnButtons = document.getElementsByClassName("next-turn-span");
+  for (let button of nextTurnButtons) {
+    button.addEventListener("click", () => {
+      unTapGems();
+      player.resetMana();
+      updateManaCount(player);
+    });
+  }
 
-  const muteButton = document.getElementById("mute-unmute-button-span");
-  muteButton.addEventListener("click", (e) => {
-    audioController.bgMusic.muted = !audioController.bgMusic.muted;
-    audioController.sex.muted = !audioController.sex.muted;
-    audioController.dameDaNe.muted = !audioController.dameDaNe.muted;
+  const muteButtons = document.getElementsByClassName("mute-unmute-button-span");
+  for (let button of muteButtons) {
+    button.addEventListener("click", (e) => {
+      audioController.bgMusic.muted = !audioController.bgMusic.muted;
+      audioController.sex.muted = !audioController.sex.muted;
+      audioController.dameDaNe.muted = !audioController.dameDaNe.muted;
 
-    if (muteButton.classList.contains("unmuted")) {
-      muteButton.innerHTML = "volume_up";
-    } else {
-      muteButton.innerHTML = "volume_off";
-    }
-    muteButton.classList.toggle("unmuted");
-  });
+      if (muteButton.classList.contains("unmuted")) {
+        muteButton.innerHTML = "volume_up";
+      } else {
+        muteButton.innerHTML = "volume_off";
+      }
+      muteButton.classList.toggle("unmuted");
+    });
+  }
 
-  const mineMineralButton = document.getElementById("mine-mineral-span");
+  const mineMineralButtons = document.getElementsByClassName("mine-mineral-span");
   const pickAxeCursor = document.getElementById("pickaxe-cursor");
-  mineMineralButton.addEventListener("click", () => {
-    pickAxeCursor.classList.toggle("hidden");
-    document.body.style.cursor = "none";
-    if (pickAxeCursor.classList.contains("hidden")) document.body.style.cursor = "default";
+  for (let button of mineMineralButtons) {
+    button.addEventListener("click", () => {
+      pickAxeCursor.classList.toggle("hidden");
+      document.body.style.cursor = "none";
+      if (pickAxeCursor.classList.contains("hidden")) document.body.style.cursor = "default";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      pickAxeCursor.setAttribute("style", `top: ${e.pageY - 7}px; left: ${e.pageX - 22}px; `);
+    });
+  }
+}
+
+function dealCards() {
+  player.draw(INITIAL_AMOUNT_OF_CARDS);
+
+  player.hand.forEach((card) => {
+    playerHand.appendChild(card.getHTML());
   });
 
-  document.addEventListener("mousemove", (e) => {
-    pickAxeCursor.setAttribute("style", `top: ${e.pageY - 7}px; left: ${e.pageX - 22}px; `);
+  opponent.draw(INITIAL_AMOUNT_OF_CARDS);
+
+  opponent.hand.forEach((card) => {
+    opponentHand.appendChild(card.getHTML());
+  });
+}
+
+function makeDecksDealCards() {
+  playerDeckDiv.addEventListener("click", () => {
+    const drawnCards = player.draw(1); // Still getting the error "TypeError: Cannot read properties of undefined (reading 'getHTML')"
+    audioController.drawCard();
+    console.log(drawnCards);
+    for (let card of drawnCards) {
+      const cardDiv = card.getHTML();
+
+      // THIS IS THE IMPORTANT PART
+      makeCardPlayable(cardDiv, player, playerHand);
+      playerHand.appendChild(cardDiv);
+    }
+  });
+
+  opponentDeckDiv.addEventListener("click", () => {
+    const drawnCards = opponent.draw(1); // Still getting the error "TypeError: Cannot read properties of undefined (reading 'getHTML')"
+    audioController.drawCard();
+    console.log(drawnCards);
+    for (let card of drawnCards) {
+      const cardDiv = card.getHTML();
+      makeCardPlayable(cardDiv, opponent, opponentHand);
+      opponentHand.appendChild(cardDiv);
+    }
   });
 }
 
 function unTapGems() {
-  const manasPlayed = Array.from(document.querySelector("#player-mana-board").children);
+  const manasPlayed = Array.from(playerMana.children);
   manasPlayed.forEach((mana) => {
     if (mana.classList.contains("tapped")) {
       mana.classList.remove("tapped");
@@ -249,20 +323,25 @@ function unTapGems() {
   });
 }
 
-function playCardFromHand() {
-  playCard(player, playerHand);
+function playCardFromHand(player, hand) {
+  playCard(player, hand);
 }
 
-function makeCardPlayable(card) {
-  card.addEventListener("click", playCardFromHand);
+function makeCardPlayable(card, player, hand) {
+  //TODO FIX THIS
+  card.addEventListener("click", () => {
+    playCardFromHand(player, hand);
+  });
 }
 
-function playCard() {
+function playCard(player, playerHand) {
+  console.log(player);
+  console.log(playerHand);
+  // finds the correct card id
   const cardId = event.target.attributes["card-id"].value;
   if (player.playCard(Number(cardId))) {
     if (cardId >= 5) {
       audioController.stopMusic();
-      // audioController.sex.addEventListener("ended", audioController.startBg());
       audioController.startSex();
     }
     removeCardFromHand(playerHand, cardId);
@@ -278,7 +357,7 @@ function removeCardFromHand(playerHand, cardId) {
 
   // obtains the child whos card-id = search id
   for (let child of childs) {
-    if (child.getAttribute("card-id") === cardId) searchedChild = child;
+    if (child.getAttribute("card-id") === cardId) searchedChild = child; //for future reference with this way you end up with a reference to the LAST card in your hand with matching id
   }
   // removes it from .player-hand div
   const playedCard = playerHand.removeChild(searchedChild);
@@ -289,7 +368,7 @@ function removeCardFromHand(playerHand, cardId) {
   // adds it to the corresponding board
   if (playedCard.getAttribute("card-id") <= 5) {
     //Think later for a way to not hardcode the 5
-    document.querySelector("#player-mana-board").appendChild(playedCard);
+    playerMana.appendChild(playedCard);
     // adds event so you can tap it
     searchedChild.addEventListener("click", () => {
       if (!searchedChild.classList.contains("tapped")) {
@@ -299,7 +378,7 @@ function removeCardFromHand(playerHand, cardId) {
       }
     });
   } else {
-    document.querySelector(".creature-board").appendChild(playedCard);
+    playerCreatures.appendChild(playedCard);
     playedCard.addEventListener("click", () => {
       const pickAxeCursor = document.getElementById("pickaxe-cursor");
       if (!pickAxeCursor.classList.contains("hidden")) {

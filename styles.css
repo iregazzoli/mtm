@@ -2,9 +2,10 @@
   box-sizing: border-box;
 }
 
-#deck-img {
+.deck-img {
   width: 15rem;
   height: 20rem;
+  border-radius: .7rem;
 }
 
 .graveyard-img{
@@ -75,34 +76,34 @@ body {
   grid-area: 5 / 7 / 6 / 8;
 }
 
-/* oponent side */
+/* opponent side */
 
-#oponent-creature-board {
+#opponent-creature-board {
   grid-area: 3 / 1 / 4 / 8;
 }
 
-#oponent-mana-board { 
+#opponent-mana-board { 
   grid-area: 2 / 1 / 3 / 6; 
 }
 
-#oponent-mana-count { 
+#opponent-mana-count { 
   grid-area: 2 / 6 / 3 / 7; 
 }
 
-#oponent-deck{
+#opponent-deck{
   grid-area: 1 / 1 / 2 / 2;
 }
 
-#oponent-graveyard{
+#opponent-graveyard{
   grid-area: 1 / 2 / 2 / 3;
 
 }
 
-#oponent-hand{
+#opponent-hand{
   grid-area: 1 / 3 / 2 / 8;
 }
 
-#oponent-buttons{
+#opponent-buttons{
   grid-area: 2 / 7 / 3 / 8;
 }
  /* END OF GRID SECTION */
@@ -114,10 +115,6 @@ body {
 
  .hand, .mana-board, .mana-count, .creature-board {
   border: 1px solid black;
- }
-
- .deck:hover {
-  cursor: pointer;
  }
   
  /* MANA ICONS */
@@ -247,6 +244,7 @@ body {
   
 .deck:hover{
   transform: scale(1.05);
+  cursor: pointer;
  }
 
 .shake {

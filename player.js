@@ -1,5 +1,4 @@
-import Deck from "./deck.js";
-import { allCards } from "./script.js";
+import { allCards } from "./cardsDB.js";
 
 export default class Player {
   constructor(deck, id) {

@@ -1,4 +1,4 @@
-import { allCards } from "./script.js";
+import { allCards } from "./cardsDB.js";
 
 export default class Deck {
   constructor(deckSpecs) {

@@ -38,73 +38,73 @@ body {
 /* GRID SECTION */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(6, 1fr) 0.5fr;
-  grid-template-rows: repeat(6, minmax(21rem, auto));
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(3, minmax(21rem, auto)) 0.20fr repeat(3, minmax(21rem, auto));
   grid-column-gap: 10px;
   grid-row-gap: 10px;
   justify-content: center;
 }
 
-#player-creature-board { 
-  grid-area: 4 / 1 / 5 / 8; 
+#player1-creature-board { 
+  grid-area: 5 / 1 / 6 / 8; 
 }
 
-#player-mana-board { 
-  grid-area: 5 / 1 / 6 / 6; 
+#player1-mana-board { 
+  grid-area: 6 / 1 / 7 / 7; 
 }
 
-#player-mana-count { 
-  grid-area: 5 / 6 / 6 / 7; 
+#player1-mana-count { 
+  grid-area: 6 / 7 / 7 / 8;
 }
 
-#player-deck{
-  grid-area: 6 / 1 / 7 / 2;
+#player1-deck{
+  grid-area: 7 / 1 / 8 / 2;
   /* margin-left: 6.5rem; */
   /* float: left; */
 }
 
-#player-graveyard{
-  grid-area: 6 / 2 / 7 / 3;
+#player1-graveyard{
+  grid-area: 7 / 2 / 8 / 3;
 
 }
 
-#player-hand{
-  grid-area: 6 / 3 / 7 / 8;
+#player1-hand{
+  grid-area: 7 / 3 / 8 / 8;
 }
 
-#player-buttons{
-  grid-area: 5 / 7 / 6 / 8;
+#buttons{
+  grid-area: 4 / 6 / 5 / 8;
 }
 
-/* opponent side */
+#stage-of-turn{
+  grid-area:  4 / 4 / 5 / 5;
+}
 
-#opponent-creature-board {
+/* player2 side */
+
+#player2-creature-board {
   grid-area: 3 / 1 / 4 / 8;
 }
 
-#opponent-mana-board { 
-  grid-area: 2 / 1 / 3 / 6; 
+#player2-mana-board { 
+  grid-area: 2 / 1 / 3 / 7; 
 }
 
-#opponent-mana-count { 
-  grid-area: 2 / 6 / 3 / 7; 
+#player2-mana-count { 
+  grid-area:  2 / 7 / 3 / 8; 
 }
 
-#opponent-deck{
+#player2-deck{
   grid-area: 1 / 1 / 2 / 2;
 }
 
-#opponent-graveyard{
+#player2-graveyard{
   grid-area: 1 / 2 / 2 / 3;
 
 }
 
-#opponent-hand{
+#player2-hand{
   grid-area: 1 / 3 / 2 / 8;
-}
-
-#opponent-buttons{
-  grid-area: 2 / 7 / 3 / 8;
 }
  /* END OF GRID SECTION */
 
@@ -279,13 +279,14 @@ button{
     border-radius: 40px;
     box-sizing: border-box;
     color: #00a84f;
-    display: block;
-    height: 50px;
+    display: inline-block;
+
     font-size: 1.4em;
     padding: 4px;
     position: relative;
     text-decoration: none;
     width: 7em;
+    height: 2em;
     z-index: 2;
 }
 
@@ -293,20 +294,6 @@ button:hover{
   color: #fff;
   cursor: pointer;
 }
-
-
-.next-turn {
-  margin-top: 4.5rem;
-}
-
-.mine-mineral{
-  margin-top: 1rem;
-}
-
-.mute-unmute-button{
-  margin-top: 1rem;
-}
-
   
 button .buttonText {
   align-items: center;
@@ -322,13 +309,4 @@ button .buttonText {
 button:hover .buttonText {
   background: transparent;
 }
-
-.material-symbols-outlined {  /* muted icon */
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 48
-}
-
   /* /BUTTONS */

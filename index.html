@@ -15,9 +15,9 @@
   <body>
     <div class="hidden" id="pickaxe-cursor"></div>
     <div class="grid-container">
-      <div class="creature-board" id="opponent-creature-board"></div>
-      <div class="mana-board" id="opponent-mana-board"></div>
-      <div class="mana-count" id="opponent-mana-count">
+      <div class="creature-board" id="player2-creature-board"></div>
+      <div class="mana-board" id="player2-mana-board"></div>
+      <div class="mana-count" id="player2-mana-count">
         <div class="red-Mana" mana-color="red">
           <div class="red-mana-value">0</div>
           <img class="mana-red-icon mana-icon" src="./card_images/manared.png" alt="mana red icon" />
@@ -39,22 +39,17 @@
           <img class="mana-white-icon mana-icon" src="./card_images/manawhite.png" alt="mana white icon" />
         </div>
       </div>
-      <div class="deck" id="opponent-deck">
+      <div class="deck" id="player2-deck">
         <img class="deck-img" src="./card_images/card_reverse_side.jpg" alt="Card Reverse side" />
       </div>
-      <div class="graveyard" id="opponent-graveyard">
+      <div class="graveyard" id="player2-graveyard">
         <img class="graveyard-img" src="./card_images/graveyard.png" alt="Card Reverse side" />
       </div>
-      <div class="hand space" id="opponent-hand"></div>
-      <div class="buttons">
-        <button class="next-turn"><span class="buttonText next-turn-span">Next Turn</span></button>
-        <button class="mine-mineral"><span class="buttonText mine-mineral-span">Mine Mineral</span></button>
-        <button class="mute-unmute-button"><span class="material-symbols-outlined buttonText unmuted mute-unmute-button-span">volume_off</span></button>
-      </div>
+      <div class="hand space" id="player2-hand"></div>
 
-      <div class="creature-board" id="player-creature-board"></div>
-      <div class="mana-board" id="player-mana-board"></div>
-      <div class="mana-count" id="player-mana-count">
+      <div class="creature-board" id="player1-creature-board"></div>
+      <div class="mana-board" id="player1-mana-board"></div>
+      <div class="mana-count" id="player1-mana-count">
         <div class="red-Mana" mana-color="red">
           <div class="red-mana-value">0</div>
           <img class="mana-red-icon mana-icon" src="./card_images/manared.png" alt="mana red icon" />
@@ -76,14 +71,14 @@
           <img class="mana-white-icon mana-icon" src="./card_images/manawhite.png" alt="mana white icon" />
         </div>
       </div>
-      <div class="deck" id="player-deck">
+      <div class="deck" id="player1-deck">
         <img class="deck-img" src="./card_images/card_reverse_side.jpg" alt="Card Reverse side" />
       </div>
-      <div class="graveyard" id="player-graveyard">
+      <div class="graveyard" id="player1-graveyard">
         <img class="graveyard-img" src="./card_images/graveyard.png" alt="Card Reverse side" />
       </div>
-      <div class="player-hand space" id="player-hand"></div>
-      <div class="buttons" id="player-buttons">
+      <div class="player1-hand space" id="player1-hand"></div>
+      <div class="buttons" id="buttons">
         <button class="next-turn"><span class="buttonText next-turn-span">Next Turn</span></button>
         <button class="mine-mineral"><span class="buttonText mine-mineral-span">Mine Mineral</span></button>
         <button class="mute-unmute-button"><span class="material-symbols-outlined buttonText unmuted mute-unmute-button-span">volume_off</span></button>

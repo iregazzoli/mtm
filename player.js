@@ -2,11 +2,12 @@ import Deck from "./deck.js";
 import { allCards } from "./script.js";
 
 export default class Player {
-  constructor(deck) {
+  constructor(deck, id) {
     this.deck = deck;
     this.hand = [];
     this.graveyard = [];
     this.mana = { green: 0, red: 0, blue: 0, black: 0, white: 0 };
+    this.id = id;
   }
 
   draw(amount) {

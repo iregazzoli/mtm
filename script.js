@@ -200,18 +200,6 @@ class AudioController {
   }
 }
 
-class PlayerUI {
-  //change for player
-  constructor(player, playerHand, playerDeck, playerLands, playerMana, playerCreatures) {
-    this.player = player;
-    this.hand = playerHand;
-    this.deck = playerDeck;
-    this.lands = playerLands;
-    this.mana = playerMana;
-    this.creatures = playerCreatures;
-  }
-}
-
 const audioController = new AudioController();
 
 StartGame();
@@ -223,107 +211,51 @@ function StartGame() {
 
   const player1Deck = new Deck(playerDeckSpecs);
   player1Deck.shuffle();
-
-  const player1 = new Player(player1Deck);
-  const player1Hand = document.querySelector("#player1-hand");
-  const player1DeckDiv = document.querySelector("#player1-deck");
-  const player1Lands = document.querySelector("#player1-mana-board");
-  const player1Mana = document.querySelector("#player1-mana-count");
-  const player1Creatures = document.querySelector("#player1-creature-board");
+  const player1 = new Player(player1Deck, "player1");
 
   const player2Deck = new Deck(opponentDeckSpecs);
   player2Deck.shuffle();
-  const player2 = new Player(player2Deck);
-  const player2Hand = document.querySelector("#player2-hand");
-  const player2DeckDiv = document.querySelector("#player2-deck");
-  const player2Lands = document.querySelector("#player2-mana-board");
-  const player2Mana = document.querySelector("#player2-mana-count");
-  const player2Creatures = document.querySelector("#player2-creature-board");
+  const player2 = new Player(player2Deck, "player2");
 
-  const player1UI = new PlayerUI(player1, player1Hand, player1DeckDiv, player1Lands, player1Mana, player1Creatures);
-  const player2UI = new PlayerUI(player2, player2Hand, player2DeckDiv, player2Lands, player2Mana, player2Creatures);
+  let playerPlaying = player1;
 
-  let playerPlaying = player1UI;
+  dealCards(player1);
+  dealCards(player2);
+  makeDecksDealCards(player1); //eventually i will change it so you draw cards only at the beginning of the turn
+  makeDecksDealCards(player2);
 
-  dealCards(player1UI);
-  dealCards(player2UI);
-  makeDecksDealCards(player1UI); //eventually i will change it so you draw cards only at the beginning of the turn
-  makeDecksDealCards(player2UI);
-
-  // let cards = Array.from(document.getElementsByClassName("card-container")); //Fix this
-  // cards.forEach((card) => {
-  //   makeCardPlayable(card);
-  // });
-
-  const nextTurnButtons = document.getElementsByClassName("next-turn-span");
-  for (let button of nextTurnButtons) {
-    button.addEventListener("click", () => {
-      unTapGems(playerPlaying.lands);
-      playerPlaying.player.resetMana();
-      updateManaCount(playerPlaying);
-      if (playerPlaying.player === player1) {
-        playerPlaying = player2UI;
-      } else {
-        playerPlaying = player1UI;
-      }
-    });
-  }
-
-  const muteButtons = document.getElementsByClassName("mute-unmute-button-span");
-  for (let button of muteButtons) {
-    button.addEventListener("click", (e) => {
-      audioController.bgMusic.muted = !audioController.bgMusic.muted;
-      audioController.sex.muted = !audioController.sex.muted;
-      audioController.dameDaNe.muted = !audioController.dameDaNe.muted;
-
-      if (button.classList.contains("unmuted")) {
-        button.innerHTML = "volume_up";
-      } else {
-        button.innerHTML = "volume_off";
-      }
-      button.classList.toggle("unmuted");
-    });
-  }
-
-  const mineMineralButtons = document.getElementsByClassName("mine-mineral-span");
-  const pickAxeCursor = document.getElementById("pickaxe-cursor");
-  for (let button of mineMineralButtons) {
-    button.addEventListener("click", () => {
-      pickAxeCursor.classList.toggle("hidden");
-      document.body.style.cursor = "none";
-      if (pickAxeCursor.classList.contains("hidden")) document.body.style.cursor = "default";
-    });
-
-    document.addEventListener("mousemove", (e) => {
-      // makeCardPlayable;
-      pickAxeCursor.setAttribute("style", `top: ${e.pageY - 7}px; left: ${e.pageX - 22}px; `);
-    });
-  }
+  setNextTurnButton(playerPlaying, player1, player2);
+  setMuteButton();
+  setMineButton();
 }
 
 //end of startGame
 
-function dealCards(playerUI) {
-  playerUI.player.draw(INITIAL_AMOUNT_OF_CARDS);
-
-  playerUI.player.hand.forEach((card) => {
+function dealCards(player) {
+  player.draw(INITIAL_AMOUNT_OF_CARDS);
+  const playerID = player.id;
+  const playerHand = document.querySelector(`#${playerID}-hand`);
+  player.hand.forEach((card) => {
     const cardDiv = card.getHTML();
-    playerUI.hand.appendChild(cardDiv);
-    makeCardPlayable(cardDiv, playerUI);
+    playerHand.appendChild(cardDiv);
+    makeCardPlayable(cardDiv, player);
   });
 }
 
-function makeDecksDealCards(playerUI) {
-  playerUI.deck.addEventListener("click", () => {
-    const drawnCards = playerUI.player.draw(1); // Still getting the error "TypeError: Cannot read properties of undefined (reading 'getHTML')"
+function makeDecksDealCards(player) {
+  const playerID = player.id;
+  const playerDeck = document.querySelector(`#${playerID}-deck`);
+  const playerHand = document.querySelector(`#${playerID}-hand`);
+  playerDeck.addEventListener("click", () => {
+    const drawnCards = player.draw(1); // Still getting the error "TypeError: Cannot read properties of undefined (reading 'getHTML')"
     if (drawnCards[0] !== undefined) {
       audioController.drawCard();
       for (let card of drawnCards) {
         const cardDiv = card.getHTML();
 
         // THIS IS THE IMPORTANT PART
-        makeCardPlayable(cardDiv, playerUI);
-        playerUI.hand.appendChild(cardDiv);
+        makeCardPlayable(cardDiv, player);
+        playerHand.appendChild(cardDiv);
       }
     }
   });
@@ -338,36 +270,36 @@ function unTapGems(playerMana) {
   });
 }
 
-function makeCardPlayable(card, playerUI) {
+function makeCardPlayable(card, player) {
   card.addEventListener("click", () => {
-    playCard(playerUI, card);
+    playCard(player, card);
   });
 }
 
-function playCard(playerUI, card) {
+function playCard(player, card) {
   // finds the correct card id
   const cardId = event.target.attributes["card-id"].value;
+  const playerID = player.id;
   //this is if the card is in the hand
   if (card.getAttribute("location") === "hand") {
-    if (playerUI["player"].playCard(Number(cardId))) {
+    if (player.playCard(Number(cardId))) {
       if (cardId > 5) {
         audioController.stopMusic();
         audioController.startSex();
-        updateManaCount(playerUI);
+        updateManaCount(player);
       }
       card.setAttribute("location", "board");
-      removeCardFromHand(playerUI, card);
+      removeCardFromHand(playerID, card);
     } else {
-      shakeManaIcon(Number(cardId), playerUI.mana);
+      shakeManaIcon(Number(cardId), playerID);
     }
   } else if (card.getAttribute("location") === "board") {
     if (card.getAttribute("card-id") <= 5) {
       //Think later for a way to not hardcode the 5
-      // adds event so you can tap it
       if (!card.classList.contains("tapped")) {
         card.classList.add("tapped");
-        playerUI.player.provideMana(Number(cardId));
-        updateManaCount(playerUI);
+        player.provideMana(Number(cardId));
+        updateManaCount(player);
       }
     } else {
       const pickAxeCursor = document.getElementById("pickaxe-cursor");
@@ -376,44 +308,44 @@ function playCard(playerUI, card) {
         document.body.style.cursor = "default";
         audioController.stopMusic();
         audioController.startDameDaNe();
-        playerUI.player.mineCreature(Number(cardId));
-        updateManaCount(playerUI);
-        moveCardToGraveyard(card);
+        player.mineCreature(Number(cardId));
+        updateManaCount(player);
+        moveCardToGraveyard(card, player);
         card.classList.add("onGraveyard");
-        card.style["z-index"] = playerUI.player.graveyard.length;
+        card.style["z-index"] = player.graveyard.length;
       }
     }
   }
 }
 
-function removeCardFromHand(playerUI, card) {
+function removeCardFromHand(playerID, card) {
   // removes it from .player-hand div
-  const playedCard = playerUI.hand.removeChild(card);
+  const playerhand = document.querySelector(`#${playerID}-hand`);
+  const playerlands = document.querySelector(`#${playerID}-mana-board`);
+  const playerCreatures = document.querySelector(`#${playerID}-creature-board`);
+  const playedCard = playerhand.removeChild(card);
 
   // adds it to the corresponding board
   if (playedCard.getAttribute("card-id") <= 5) {
     //Think later for a way to not hardcode the 5
-    playerUI.lands.appendChild(playedCard);
+    playerlands.appendChild(playedCard);
   } else {
-    playerUI.creatures.appendChild(playedCard);
+    playerCreatures.appendChild(playedCard);
   }
 }
 
-function makeCardUnplayable(cardDiv, playCardFromHand) {
-  console.log("hey");
-  cardDiv.removeEventListener("click", playCardFromHand);
-}
-
-function updateManaCount(playerUI) {
-  const manaDIVs = Array.from(playerUI.mana.children);
+function updateManaCount(player) {
+  const playerID = player.id;
+  const manaDIVs = Array.from(document.querySelector(`#${playerID}-mana-count`).children);
   for (let divs of manaDIVs) {
-    divs.children[0].firstChild.data = playerUI.player.mana[divs.getAttribute("mana-color")];
+    divs.children[0].firstChild.data = player.mana[divs.getAttribute("mana-color")];
   }
 }
 
-function shakeManaIcon(cardId, playerMana) {
+function shakeManaIcon(cardId, playerID) {
   //Finds the correct mana icon
   const card = allCards.filter((card) => cardId === card.id)[0];
+  const playerMana = document.querySelector(`#${playerID}-mana-count`);
   let manas = Array.from(playerMana.children);
   const manaDiv = manas.filter((mana) => mana.getAttribute("mana-color") === card.color)[0];
   const manaIcon = manaDiv.children[1];
@@ -425,7 +357,56 @@ function shakeManaIcon(cardId, playerMana) {
   }, 500);
 }
 
-function moveCardToGraveyard(cardDiv) {
-  const playerGraveyardDiv = document.querySelector("#player-graveyard");
+function moveCardToGraveyard(cardDiv, player) {
+  const playerID = player.id;
+  const playerGraveyardDiv = document.querySelector(`#${playerID}-graveyard`);
   playerGraveyardDiv.appendChild(cardDiv);
+}
+
+function setNextTurnButton(playerPlaying, player1, player2) {
+  const nextTurnButton = document.getElementById("next-turn-span");
+  nextTurnButton.addEventListener("click", () => {
+    const playerID = playerPlaying.id;
+    const playerLand = document.querySelector(`#${playerID}-mana-board`);
+
+    unTapGems(playerLand);
+    playerPlaying.resetMana();
+    updateManaCount(playerPlaying);
+    if (playerPlaying === player1) {
+      playerPlaying = player2;
+    } else {
+      playerPlaying = player1;
+    }
+  });
+}
+
+function setMuteButton() {
+  const muteButton = document.getElementById("mute-unmute-button-span");
+  muteButton.addEventListener("click", (e) => {
+    audioController.bgMusic.muted = !audioController.bgMusic.muted;
+    audioController.sex.muted = !audioController.sex.muted;
+    audioController.dameDaNe.muted = !audioController.dameDaNe.muted;
+
+    if (muteButton.classList.contains("unmuted")) {
+      muteButton.innerHTML = "volume_up";
+    } else {
+      muteButton.innerHTML = "volume_off";
+    }
+    muteButton.classList.toggle("unmuted");
+  });
+}
+
+function setMineButton() {
+  const mineMineralButton = document.getElementById("mine-mineral-span");
+  const pickAxeCursor = document.getElementById("pickaxe-cursor");
+  mineMineralButton.addEventListener("click", () => {
+    pickAxeCursor.classList.toggle("hidden");
+    document.body.style.cursor = "none";
+    if (pickAxeCursor.classList.contains("hidden")) document.body.style.cursor = "default";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    // makeCardPlayable;
+    pickAxeCursor.setAttribute("style", `top: ${e.pageY - 7}px; left: ${e.pageX - 22}px; `);
+  });
 }

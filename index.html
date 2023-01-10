@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="card_styles.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   </head>
   <body>
     <div class="hidden" id="pickaxe-cursor"></div>
@@ -47,6 +46,18 @@
       </div>
       <div class="hand space" id="player2-hand"></div>
 
+      <div id="stage-of-turn">
+        <span class="material-symbols-outlined phase-icon" id="pre-combat-phase">crop_portrait</span>
+        <span class="material-symbols-outlined phase-icon" id="combat-phase">swords</span>
+        <span class="material-symbols-outlined phase-icon" id="post-combat-phase">crop_portrait</span>
+      </div>
+
+      <div class="buttons" id="buttons">
+        <button class="next-stage"><span class="buttonText" id="next-stage-span">Next</span></button>
+        <button class="mine-mineral"><span class="buttonText" id="mine-mineral-span">Mine Mineral</span></button>
+        <button class="mute-unmute-button"><span class="material-symbols-outlined buttonText unmuted" id="mute-unmute-button-span">volume_off</span></button>
+      </div>
+
       <div class="creature-board" id="player1-creature-board"></div>
       <div class="mana-board" id="player1-mana-board"></div>
       <div class="mana-count" id="player1-mana-count">
@@ -78,11 +89,6 @@
         <img class="graveyard-img" src="./card_images/graveyard.png" alt="Card Reverse side" />
       </div>
       <div class="player1-hand space" id="player1-hand"></div>
-      <div class="buttons" id="buttons">
-        <button class="next-turn"><span class="buttonText" id="next-turn-span">Next Turn</span></button>
-        <button class="mine-mineral"><span class="buttonText" id="mine-mineral-span">Mine Mineral</span></button>
-        <button class="mute-unmute-button"><span class="material-symbols-outlined buttonText unmuted" id="mute-unmute-button-span">volume_off</span></button>
-      </div>
     </div>
   </body>
 </html>

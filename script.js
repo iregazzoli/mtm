@@ -54,7 +54,7 @@ class AudioController {
     this.sex = new Audio("./audio/sex.mp3");
     this.dameDaNe = new Audio("./audio/dame_da_ne.mp3");
     this.drawCardEffect = new Audio("./audio/deal_card.mp3");
-    this.bgMusic.volume = 0.1;
+    this.bgMusic.volume = 0.02;
     this.sex.volume = 0.02;
     this.dameDaNe.volume = 0.02;
   }
@@ -108,9 +108,20 @@ function StartGame() {
   makeDecksDealCards(player1); //eventually i will change it so you draw cards only at the beginning of the turn
   makeDecksDealCards(player2);
 
-  setNextTurnButton(playerPlaying, player1, player2);
+  setNextStage(playerPlaying, player1, player2);
   setMuteButton();
   setMineButton();
+
+  let gameFinish = false;
+
+  // while (!gameFinish) {
+  // window.onload = function () {
+  //   const playerID = playerPlaying.id;
+  //   const playerHand = document.querySelector(`#${playerID}-hand`);
+  //   playerHand.style["pointer-events"] = auto; //TODO fix this later
+  // };
+
+  // }
 }
 
 //end of startGame
@@ -247,20 +258,66 @@ function moveCardToGraveyard(cardDiv, player) {
   playerGraveyardDiv.appendChild(cardDiv);
 }
 
-function setNextTurnButton(playerPlaying, player1, player2) {
-  const nextTurnButton = document.getElementById("next-turn-span");
-  nextTurnButton.addEventListener("click", () => {
-    const playerID = playerPlaying.id;
-    const playerLand = document.querySelector(`#${playerID}-mana-board`);
+function setNextStage(playerPlaying, player1, player2) {
+  const nextTurnButton = document.getElementById("next-stage-span");
 
-    unTapGems(playerLand);
-    playerPlaying.resetMana();
-    updateManaCount(playerPlaying);
-    if (playerPlaying === player1) {
-      playerPlaying = player2;
-    } else {
-      playerPlaying = player1;
-    }
+  nextTurnButton.addEventListener("click", () => {
+    nextTurnButtonBehaviour(nextTurnButton, playerPlaying, player1, player2);
+  });
+}
+
+function nextTurnButtonBehaviour(nextTurnButton, playerPlaying, player1, player2) {
+  if (nextTurnButton.innerHTML === "Next") {
+    preCombatPhase(nextTurnButton);
+  } else if (nextTurnButton.innerHTML === "All Attack") {
+    combatPhase(nextTurnButton);
+  } else if (nextTurnButton.innerHTML === "Next Turn") {
+    postCombatPhase(nextTurnButton, playerPlaying, player1, player2);
+  }
+}
+
+function preCombatPhase(nextTurnButton) {
+  const preCombatIcon = document.querySelector("#pre-combat-phase");
+  preCombatIcon.style.color = "#000000";
+  const combatIcon = document.querySelector("#combat-phase");
+  combatIcon.style.color = "#ffffff";
+  nextTurnButton.innerHTML = "All Attack";
+}
+
+function combatPhase(nextTurnButton) {
+  const combatIcon = document.querySelector("#combat-phase");
+  combatIcon.style.color = "#000000";
+  const postCombatIcon = document.querySelector("#post-combat-phase");
+  postCombatIcon.style.color = "#ffffff";
+  nextTurnButton.innerHTML = "Next Turn";
+}
+
+function postCombatPhase(nextTurnButton, playerPlaying, player1, player2) {
+  const postCombatIcon = document.querySelector("#post-combat-phase");
+  postCombatIcon.style.color = "#000000";
+  const preCombatIcon = document.querySelector("#pre-combat-phase");
+  preCombatIcon.style.color = "#ffffff";
+  nextTurnButton.innerHTML = "Next";
+
+  const playerID = playerPlaying.id;
+  const playerLand = document.querySelector(`#${playerID}-mana-board`);
+  console.log(playerID); //problem is that once i set the Event with playerPlaying = player 1 it stays like that
+
+  unTapGems(playerLand);
+  playerPlaying.resetMana();
+  updateManaCount(playerPlaying);
+  const turnPhaseIcons = document.querySelectorAll(".phase-icon");
+  let color;
+  if (playerPlaying === player1) {
+    playerPlaying = player2;
+    color = "#dd1313";
+  } else {
+    playerPlaying = player1;
+    color = "#006eff";
+  }
+  turnPhaseIcons.forEach((icon) => {
+    // icon.style.color = color;
+    icon.style.textShadow = `0 0 10px ${color}`;
   });
 }
 

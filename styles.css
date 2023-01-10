@@ -15,7 +15,6 @@
   position: absolute;
   margin-left: 1rem;
 }
-
 #pickaxe-cursor{
   width: 2rem;
   height: 2rem;
@@ -309,4 +308,29 @@ button .buttonText {
 button:hover .buttonText {
   background: transparent;
 }
-  /* /BUTTONS */
+
+/* /BUTTONS */
+
+/* TURN PHASE ICONS */
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 200,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.phase-icon{
+  font-size: 4em !important;
+  color: #000000;
+  position: relative;
+  text-shadow:
+      0 0 10px #006eff;
+}
+
+#pre-combat-phase{
+  color: #ffffff;
+}
+
+/* /TURN PHASE ICONS */

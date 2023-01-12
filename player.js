@@ -37,12 +37,13 @@ export default class Player {
     const manaColor = card.color;
     const cardSacrificeAmount = card.sacrifice;
     this.mana[manaColor] += cardSacrificeAmount;
-    this.sendCardToGraveyard(card);
+    return this.sendCardToGraveyard(card);
   }
 
   sendCardToGraveyard(card) {
     //for the moment this receives the card maybe in the future it will be the cardId
     this.graveyard.push(card);
+    return card;
   }
 
   removeCardFromHand(cardId) {

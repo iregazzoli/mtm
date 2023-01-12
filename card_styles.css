@@ -72,8 +72,7 @@ img {
   z-index: 1;
   position: relative;
   height: 108%; 
-  max-width: 97%; 
-  left: 1%;
+  max-width: 99%; 
   top: 0.5%;
   left: 1.2%;
   display: flex;
@@ -270,4 +269,9 @@ p {
 
 .onGraveyard {
   position: absolute;
+}
+
+.played{
+  /* height: 10rem;
+  width: 15rem; */
 }

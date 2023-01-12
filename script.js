@@ -1,5 +1,6 @@
 import Player from "./player.js";
 import Deck from "./deck.js";
+import { allCards } from "./cardsDB.js";
 
 const INITIAL_AMOUNT_OF_CARDS = 5;
 
@@ -220,6 +221,18 @@ function removeCardFromHand(playerID, card) {
   const playerCreatures = document.querySelector(`#${playerID}-creature-board`);
   const playedCard = playerhand.removeChild(card);
 
+  card.firstChild.querySelector(".card-frame-type").remove();
+  card.firstChild.querySelector(".card-frame-text").remove();
+
+  const cardImgAndInfo = card.firstChild.querySelector(".card-frame");
+
+  cardImgAndInfo.style.height = "300px";
+  card.appendChild(cardImgAndInfo);
+  card.firstChild.remove();
+
+  card.style.height = "12em";
+  card.style.marginTop = "2em";
+
   // adds it to the corresponding board
   if (playedCard.getAttribute("card-id") <= 5) {
     //Think later for a way to not hardcode the 5
@@ -260,7 +273,6 @@ function moveCardToGraveyard(cardDiv, player) {
 
 function setNextStage(playerPlaying, player1, player2) {
   const nextTurnButton = document.getElementById("next-stage-span");
-
   nextTurnButton.addEventListener("click", () => {
     nextTurnButtonBehaviour(nextTurnButton, playerPlaying, player1, player2);
   });
@@ -306,18 +318,29 @@ function postCombatPhase(nextTurnButton, playerPlaying, player1, player2) {
   unTapGems(playerLand);
   playerPlaying.resetMana();
   updateManaCount(playerPlaying);
-  const turnPhaseIcons = document.querySelectorAll(".phase-icon");
-  let color;
+
+  let mainColor;
+  let secondaryColor;
+
   if (playerPlaying === player1) {
     playerPlaying = player2;
-    color = "#dd1313";
+    mainColor = "#dd1313";
+    secondaryColor = "#b85300";
   } else {
     playerPlaying = player1;
-    color = "#006eff";
+    mainColor = "#006eff";
+    secondaryColor = "#0099b8";
   }
+
+  //changes the colors of the icons and buttons
+  const turnPhaseIcons = document.querySelectorAll(".phase-icon");
   turnPhaseIcons.forEach((icon) => {
-    // icon.style.color = color;
-    icon.style.textShadow = `0 0 10px ${color}`;
+    icon.style.textShadow = `0 0 10px ${mainColor}`;
+  });
+  const interactiveButtons = document.querySelectorAll(".interactive-button");
+  interactiveButtons.forEach((button) => {
+    button.style.background = `linear-gradient(to right, ${secondaryColor} 0%, ${mainColor} 100%)`;
+    button.style.color = mainColor;
   });
 }
 

@@ -1,4 +1,5 @@
 import { allCards } from "./cardsDB.js";
+import { Creature } from "./deck.js";
 
 export default class Player {
   constructor(deck, id) {
@@ -33,17 +34,18 @@ export default class Player {
   }
 
   mineCreature(cardId) {
-    const card = getCard(cardId);
-    const manaColor = card.color;
-    const cardSacrificeAmount = card.sacrifice;
+    const cardData = getCard(cardId);
+    const card = new Creature(cardData["name"], cardData["name"], cardData["cost"], cardData["color"], cardData["effect"], cardData["sacrifice"], cardData["atk"], cardData["def"]);
+    const manaColor = cardData.color;
+    const cardSacrificeAmount = cardData.sacrifice;
     this.mana[manaColor] += cardSacrificeAmount;
-    return this.sendCardToGraveyard(card);
+    this.sendCardToGraveyard(card);
+    return card;
   }
 
   sendCardToGraveyard(card) {
     //for the moment this receives the card maybe in the future it will be the cardId
     this.graveyard.push(card);
-    return card;
   }
 
   removeCardFromHand(cardId) {

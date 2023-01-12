@@ -66,7 +66,7 @@ class Card {
   }
 }
 
-class Creature extends Card {
+export class Creature extends Card {
   constructor(id, name, cost, color, effect, sacrifice, atk, def) {
     super(id, name, cost, color, effect);
     this.sacrifice = sacrifice;

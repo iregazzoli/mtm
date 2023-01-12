@@ -112,17 +112,6 @@ function StartGame() {
   setNextStage(playerPlaying, player1, player2);
   setMuteButton();
   setMineButton();
-
-  let gameFinish = false;
-
-  // while (!gameFinish) {
-  // window.onload = function () {
-  //   const playerID = playerPlaying.id;
-  //   const playerHand = document.querySelector(`#${playerID}-hand`);
-  //   playerHand.style["pointer-events"] = auto; //TODO fix this later
-  // };
-
-  // }
 }
 
 //end of startGame
@@ -204,9 +193,9 @@ function playCard(player, card) {
         document.body.style.cursor = "default";
         audioController.stopMusic();
         audioController.startDameDaNe();
-        player.mineCreature(Number(cardId));
+        const cardInGraveyard = player.mineCreature(Number(cardId));
         updateManaCount(player);
-        moveCardToGraveyard(card, player);
+        moveCardToGraveyard(card, player, cardInGraveyard);
         card.classList.add("onGraveyard");
         card.style["z-index"] = player.graveyard.length;
       }
@@ -265,10 +254,12 @@ function shakeManaIcon(cardId, playerID) {
   }, 500);
 }
 
-function moveCardToGraveyard(cardDiv, player) {
+function moveCardToGraveyard(cardDiv, player, card) {
   const playerID = player.id;
+  const playerCreatures = document.querySelector(`#${playerID}-creature-board`);
+  playerCreatures.removeChild(cardDiv);
   const playerGraveyardDiv = document.querySelector(`#${playerID}-graveyard`);
-  playerGraveyardDiv.appendChild(cardDiv);
+  playerGraveyardDiv.appendChild(card.getHTML());
 }
 
 function setNextStage(playerPlaying, player1, player2) {
